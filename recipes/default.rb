@@ -20,3 +20,7 @@ rbenv_ruby "2.2.3" do
   ruby_version "2.2.3"
   global true
 end
+
+rbenv_gem "bundler" do
+  ruby_version "2.2.3"
+end
