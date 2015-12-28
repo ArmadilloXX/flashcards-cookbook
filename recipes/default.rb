@@ -24,3 +24,7 @@ end
 rbenv_gem "bundler" do
   ruby_version "2.2.3"
 end
+
+rbenv_gem "foreman" do
+  ruby_version "2.2.3"
+end
