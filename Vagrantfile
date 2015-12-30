@@ -20,22 +20,32 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     web.vm.box = "ubuntu/trusty64"
     web.vm.network :private_network, ip: "192.168.50.101"
     web.vm.network "forwarded_port", guest: 3000, host: 3000, auto_correct: true
+    web.vm.network "forwarded_port", guest: 5435, host: 5432, auto_correct: true
     # web.vm.synced_folder "../", "/home/vagrant/myapp"
     web.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     end
     web.vm.provision :chef_solo do |chef|
-      # chef.json = {
-      #   java: {
-      #     jdk_version: 8
-      #   },
-      #   mysql: {
-      #     server_root_password: 'rootpass',
-      #     server_debian_password: 'debpass',
-      #     server_repl_password: 'replpass'
-      #   }
-      # }
+      chef.json = {
+        postgresql: {
+          version: '9.4',
+          password: {
+            postgres: "testpass"
+          },
+          config: {
+            port: 5435
+          }
+        }
+        # java: {
+        #   jdk_version: 8
+        # },
+        # mysql: {
+        #   server_root_password: 'rootpass',
+        #   server_debian_password: 'debpass',
+        #   server_repl_password: 'replpass'
+        # }
+      }
       chef.run_list = [
         'recipe[flashcards-cookbook::default]'
       ]

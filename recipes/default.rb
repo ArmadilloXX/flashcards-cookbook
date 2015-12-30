@@ -33,4 +33,5 @@ rbenv_gem "foreman" do
   ruby_version "2.2.3"
 end
 
-include_recipe 'postgresql'
+include_recipe 'postgresql::config_initdb'
+include_recipe 'postgresql::server'
