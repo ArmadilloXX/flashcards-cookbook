@@ -28,6 +28,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     web.vm.provision :chef_solo do |chef|
       chef.json = {
+        ruby_version: "2.2.3",
+        gems: {
+          webapp: [
+            "bundler",
+            "rbenv-rehash",
+            "foreman"
+          ]
+        },
         postgresql: {
           version: '9.4',
           password: {
