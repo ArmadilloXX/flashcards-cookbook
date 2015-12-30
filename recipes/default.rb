@@ -27,5 +27,15 @@ end
 include_recipe 'postgresql::config_initdb'
 include_recipe 'postgresql::server'
 
+# Prepare database connection
+
+# Create and prepare database
+
+# Seeding database
+
 # Redis
+include_recipe 'redisio'
+include_recipe 'redisio::enable'
+
+# Start application server
 

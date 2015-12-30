@@ -44,6 +44,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           config: {
             port: 5435
           }
+        },
+        redisio: {
+          version: "3.0.6",
+          safe_install: false
         }
         # java: {
         #   jdk_version: 8
