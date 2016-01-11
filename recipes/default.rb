@@ -13,14 +13,14 @@ include_recipe "git::default"
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 
-rbenv_ruby node["ruby_version"] do
-  ruby_version node["ruby_version"]
+rbenv_ruby node["webapp"]["ruby_version"] do
+  ruby_version node["webapp"]["ruby_version"]
   global true
 end
 
-node["gems"]["webapp"].each do |item|
+node["webapp"]["gems_to_install"].each do |item|
   rbenv_gem item do
-    ruby_version node["ruby_version"]
+    ruby_version node["webapp"]["ruby_version"]
   end
 end
 
@@ -29,43 +29,32 @@ include_recipe "database::postgresql"
 # include_recipe 'postgresql::config_initdb'
 
 # Prepare database connection
-postgresql_connection_info = {host: "127.0.0.1",
-                              port: node['postgresql']['config']['port'],
-                              username: 'postgres',
-                              password: node['postgresql']['password']['postgres']}
+postgresql_connection_info = {
+  host: node['postgresql']['config']['listen_addresses'],
+  port: node['postgresql']['config']['port'],
+  username: 'postgres',
+  password: node['postgresql']['password']['postgres']
+}
 
-# Create 'vagrant' database superuser
-postgresql_database_user 'vagrant' do
+# Create database superuser
+postgresql_database_user node["webapp"]["username"] do
   connection postgresql_connection_info
   superuser true
   action :create
 end
 
-execute 'bundle_install' do
-  cwd '/home/vagrant/flashcards'
-  command 'bundle install'
-  user 'vagrant'
-end
+# Add default db config file
 
-# Create databases
-execute 'create_db' do
-  cwd '/home/vagrant/flashcards'
-  user 'vagrant'
-  command 'rake db:create'
-end
-
-# Migrating database
-execute 'migrate_db' do
-  cwd '/home/vagrant/flashcards'
-  user 'vagrant'
-  command 'rake db:migrate'
-end
-
-# Seeding database
-execute 'seed_db' do
-  cwd '/home/vagrant/flashcards'
-  user 'vagrant'
-  command 'rake db:seed'
+# Prepare application and databases
+bash 'preparation' do
+  cwd node["webapp"]["directory"]
+  user node["webapp"]["username"]
+  code <<-CMDS
+    bundle install
+    rake db:create
+    rake db:migrate
+    rake db:seed
+  CMDS
 end
 
 # ENV variables setup
