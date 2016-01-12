@@ -16,6 +16,7 @@ depends 'database', '~> 4.0.9'
 depends 'redisio', '~> 2.3.0'
 depends 'java', '~> 1.36.0'
 depends 'elasticsearch', '~> 2.1.0'
-depends 'kibana', '~> 0.1.9'
+# depends 'kibana', '~> 0.1.9'
+depends 'simple-kibana', '~> 0.4.3'
 depends 'nginx', '~> 2.7.6'
 
