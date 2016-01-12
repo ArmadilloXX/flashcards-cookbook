@@ -1,1 +1,2 @@
-include_recipe "kibana_lwrp::install"
+include_recipe "kibana::kibana4"
+include_recipe "kibana::nginx"
