@@ -25,7 +25,7 @@ node["webapp"]["gems_to_install"].each do |item|
 end
 
 include_recipe 'postgresql::server'
-include_recipe "database::postgresql"
+# include_recipe "database::postgresql"
 # include_recipe 'postgresql::config_initdb'
 
 # Prepare database connection
