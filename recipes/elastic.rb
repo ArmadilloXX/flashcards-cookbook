@@ -4,7 +4,7 @@ include_recipe 'elasticsearch'
 
 elasticsearch_user 'elasticsearch'
 elasticsearch_install 'elasticsearch' do
-  type node['elasticsearch']['install_type'].to_sym # since TK can't symbol.
+  type node['elasticsearch']['install_type'].to_sym
 end
 elasticsearch_configure 'elasticsearch' do
       configuration ({

@@ -1,16 +1,14 @@
 [Unit]
-Description=<%= node['app-rails']['environment'] %> sidekiq instance
+Description= Flashcards kibana instance
 
 [Service]
-User=<%= node['app-rails']['deploy']["user"] %>
-Group=<%= node['app-rails']['deploy']["user"] %>
-WorkingDirectory=<%= "#{node['app-rails']['deploy']["deploy_to"]}/current" %>
-Environment=RAILS_ENV=<%= node['app-rails']['environment'] %>
-SyslogIdentifier=<%= node['app-rails']["name"] %>-sidekiq
-PIDFile=<%= "#{node['app-rails']['deploy']["deploy_to"]}/shared/pids/sidekiq.pid" %>
+User=<%= node["kibana"]["user"] %>
+Group=<%= node["kibana"]["group"] %>
+WorkingDirectory=/opt/kibana
+PIDFile=/var/run/kibana.pid
+SyslogIdentifier=flashcards-kibana
 Restart=always
-ExecStart=/usr/bin/bundle exec sidekiq -e <%= node['app-rails']['environment'] %> -P <%= "#{node['app-rails']['deploy']["deploy_to"]}/shared/pids/sidekiq.pid" %>
-RestartSec=5
+ExecStart=/usr/local/bin/kibana
 
 [Install]
 WantedBy=multi-user.target

@@ -20,8 +20,11 @@ default['redisio']['version'] = '3.0.6'
 # Java version for Elasticsearch
 default['java']['jdk_version'] = 8
 
+# Elasticsearch
+default['elasticsearch']['version'] = '2.1.1'
+
 # Kibana
-default['kibana']['version'] = '4.2.0'
-default['kibana']['download_url'] = 'https://download.elastic.co/kibana/kibana/kibana-4.2.0-linux-x64.tar.gz'
-default['kibana']['checksum'] = '67d586e43a35652adeb6780eaa785d3d785ce60cc74fbf3b6a9a53b753c8f985'
+default['kibana']['download_url'] = 'https://download.elastic.co/kibana/kibana/kibana-4.3.1-linux-x64.tar.gz'
+default['kibana']['checksum'] = 'c6a91921a0055714fd24fb94a70b7057f43492da6bd8c4f2f1acbf0964bf09b9'
+default['kibana']['version'] = '4.3.1'
 default['kibana']['config']['base_dir'] = '/opt/kibana'

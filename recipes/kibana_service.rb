@@ -7,5 +7,5 @@ end
 service "kibana" do
   provider Chef::Provider::Service::Systemd
   supports start: true, restart: true, stop: true, status: true
-  action :enable
+  action [:enable, :start]
 end
