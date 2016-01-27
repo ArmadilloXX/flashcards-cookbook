@@ -1,0 +1,10 @@
+server {
+  listen 82;
+  server_name $hostname;
+  access_log <%= node['nginx']['log_dir'] %>/kibana-nginx.access.log;
+
+  location / {
+    proxy_pass http://localhost:5601;
+    proxy_read_timeout 90;
+  }
+}
