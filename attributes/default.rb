@@ -28,3 +28,5 @@ default['kibana']['download_url'] = 'https://download.elastic.co/kibana/kibana/k
 default['kibana']['checksum'] = 'c6a91921a0055714fd24fb94a70b7057f43492da6bd8c4f2f1acbf0964bf09b9'
 default['kibana']['version'] = '4.3.1'
 default['kibana']['config']['base_dir'] = '/opt/kibana'
+default['kibana']['access']['username'] = 'testuser'
+default['kibana']['access']['password'] = 'testpass' #TODO - Encrypt?

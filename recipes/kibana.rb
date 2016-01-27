@@ -23,6 +23,12 @@ end
 # NGINX
 ########################################
 
+htpasswd "/etc/nginx/htpasswd.users" do
+  user node['kibana']['access']['username']
+  password node['kibana']['access']['password']
+  type "sha1"
+end
+
 template "#{node['nginx']['dir']}/sites-available/kibana-flashcards" do
   source "nginx.kibana.erb"
   owner node['nginx']['user']
