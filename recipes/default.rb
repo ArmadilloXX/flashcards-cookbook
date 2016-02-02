@@ -12,6 +12,7 @@ include_recipe "build-essential"
 include_recipe "git::default"
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
+include_recipe "imagemagick"
 
 rbenv_ruby node["webapp"]["ruby_version"] do
   ruby_version node["webapp"]["ruby_version"]
@@ -24,15 +25,15 @@ node["webapp"]["gems_to_install"].each do |item|
   end
 end
 
-include_recipe 'postgresql::server'
+include_recipe "postgresql::server"
 include_recipe "database::postgresql"
 
 # Prepare database connection
 postgresql_connection_info = {
-  host: node['postgresql']['config']['listen_addresses'],
-  port: node['postgresql']['config']['port'],
-  username: 'postgres',
-  password: node['postgresql']['password']['postgres']
+  host: node["postgresql"]["config"]["listen_addresses"],
+  port: node["postgresql"]["config"]["port"],
+  username: "postgres",
+  password: node["postgresql"]["password"]["postgres"]
 }
 
 # Create database superuser
@@ -45,7 +46,7 @@ end
 # Add default db config file
 
 # Prepare application and databases
-bash 'preparation' do
+bash "preparation" do
   cwd node["webapp"]["directory"]
   user node["webapp"]["username"]
   code <<-CMDS
@@ -59,8 +60,8 @@ end
 # ENV variables setup
 
 # Redis
-include_recipe 'redisio'
-include_recipe 'redisio::enable'
+include_recipe "redisio"
+include_recipe "redisio::enable"
 
 # Start application server
 
