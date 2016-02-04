@@ -1,6 +1,9 @@
 default['webapp']['ruby_version'] = '2.2.3'
 default['webapp']['gems_to_install'] = ['bundler', 'rbenv-rehash', 'foreman']
 
+# build-essential 
+default['build-essential']['compile_time'] = true
+
 # Postgresql
 default['postgresql']['version'] = "9.4"
 default['postgresql']['enable_pgdg_yum'] = true
