@@ -14,7 +14,7 @@ include_recipe "database::postgresql"
 postgresql_connection_info = {
   host: node["postgresql"]["config"]["listen_addresses"],
   port: node["postgresql"]["config"]["port"],
-  username: "postgres",
+  username: node['postgresql']['username']['postgres'],
   password: node["postgresql"]["password"]["postgres"]
 }
 

@@ -7,9 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "apt"
 include_recipe "build-essential"
-include_recipe "git::default"
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 include_recipe "imagemagick"
@@ -27,7 +25,7 @@ node["webapp"]["gems_to_install"].each do |item|
   end
 end
 
-# Prepare application 
+# Prepare application
 bash "preparation" do
   cwd node["webapp"]["directory"]
   user node["webapp"]["username"]

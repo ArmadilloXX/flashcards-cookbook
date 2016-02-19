@@ -1,7 +1,7 @@
 default['webapp']['ruby_version'] = '2.2.3'
-default['webapp']['gems_to_install'] = ['bundler', 'rbenv-rehash', 'foreman']
+default['webapp']['gems_to_install'] = ['bundler', 'rbenv-rehash']
 
-# build-essential 
+# build-essential
 default['build-essential']['compile_time'] = true
 
 # Postgresql
@@ -14,6 +14,7 @@ default['postgresql']['server']['packages'] = ["postgresql94-server"]
 default['postgresql']['server']['service_name'] = "postgresql-9.4"
 default['postgresql']['contrib']['packages'] = ["postgresql94-contrib"]
 default['postgresql']['setup_script'] = "postgresql94-setup"
+default['postgresql']['username']['postgres'] = 'postgres'
 default['postgresql']['password']['postgres'] = 'testpass' #TODO - Encrypt?
 default['postgresql']['config']['port'] = 5432
 
