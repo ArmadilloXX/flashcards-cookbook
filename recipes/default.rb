@@ -13,6 +13,7 @@ include_recipe "rbenv::ruby_build"
 include_recipe "imagemagick"
 include_recipe "redisio"
 include_recipe "redisio::enable"
+include_recipe "phantomjs::default"
 
 rbenv_ruby node["webapp"]["ruby_version"] do
   ruby_version node["webapp"]["ruby_version"]

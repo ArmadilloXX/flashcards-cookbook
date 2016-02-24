@@ -20,4 +20,5 @@ depends 'simple-kibana', '~> 0.4.3'
 depends 'nginx', '~> 2.7.6'
 depends 'htpasswd', '~> 0.2.4'
 depends 'imagemagick'
+depends 'phantomjs'
 
