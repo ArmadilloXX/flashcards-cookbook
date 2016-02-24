@@ -17,6 +17,15 @@ default['postgresql']['setup_script'] = "postgresql94-setup"
 default['postgresql']['username']['postgres'] = 'postgres'
 default['postgresql']['password']['postgres'] = 'testpass' #TODO - Encrypt?
 default['postgresql']['config']['port'] = 5432
+default['postgresql']['config']['listen_addresses'] = "*"
+pg_conf = default['postgresql']['pg_hba'] << {
+  type: "host",
+  db: "all",
+  user: "vagrant",
+  addr: "192.168.50.0/24", #TODO Add correct mask
+  method: "md5"
+}
+default['postgresql']['pg_hba'] = pg_conf
 
 # Redis
 default['redisio']['version'] = '3.0.6'
