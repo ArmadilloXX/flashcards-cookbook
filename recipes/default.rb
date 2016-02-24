@@ -15,21 +15,35 @@ include_recipe "redisio"
 include_recipe "redisio::enable"
 include_recipe "phantomjs::default"
 
-rbenv_ruby node["webapp"]["ruby_version"] do
-  ruby_version node["webapp"]["ruby_version"]
+rbenv_ruby node["application"]["ruby_version"] do
+  ruby_version node["application"]["ruby_version"]
   global true
 end
 
-node["webapp"]["gems_to_install"].each do |item|
+node["application"]["gems_to_install"].each do |item|
   rbenv_gem item do
-    ruby_version node["webapp"]["ruby_version"]
+    ruby_version node["application"]["ruby_version"]
   end
 end
 
+########################################
+# Sidekiq setup
+########################################
+
+# template "/etc/systemd/system/sidekiq.service" do
+#   source "sidekiq.service.erb"
+#   mode 0644
+# end
+
+# service "sidekiq" do
+#   supports restart: true, start: true, stop: true
+#   action :nothing
+# end
+
 # Prepare application
 bash "preparation" do
-  cwd node["webapp"]["directory"]
-  user node["webapp"]["username"]
+  cwd node["application"]["directory"]
+  user node["application"]["username"]
   code "bundle install"
 end
 
