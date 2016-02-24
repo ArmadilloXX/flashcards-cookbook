@@ -22,6 +22,7 @@ postgresql_connection_info = {
 postgresql_database_user node["webapp"]["username"] do
   connection postgresql_connection_info
   superuser true
+  password "vagrant" #TODO Encrypt?
   action :create
 end
 
