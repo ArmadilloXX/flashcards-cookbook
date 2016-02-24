@@ -1,5 +1,23 @@
-default['webapp']['ruby_version'] = '2.2.3'
-default['webapp']['gems_to_install'] = ['bundler', 'rbenv-rehash']
+default["application"]['ruby_version'] = '2.2.3'
+default["application"]['gems_to_install'] = ['bundler', 'rbenv-rehash']
+# default["app-rails"]["app_server"]             = "passenger"
+
+# default["app-rails"]["environment"]            = %w(production staging).include?(node.chef_environment) ? node.chef_environment : "development"
+# default["app-rails"]["ruby_version"]           = "2.2.3"
+
+# default["app-rails"]["deploy"]["force_assets"] = true
+# default["app-rails"]["deploy"]["revision"]     = "master"
+# default["app-rails"]["deploy"]["user"]         = "deployer"
+# default["app-rails"]["deploy"]["deploy_to"]    = "/var/www/#{node["app-rails"]["name"]}"
+
+# default["app-rails"]["database"]["name"]       = "#{node["app-rails"]["name"]}_#{node["app-rails"]["environment"]}"
+# default["app-rails"]["database"]["user"]       = "postgres"
+# default["app-rails"]["database"]["host"]       = "localhost"
+# default["app-rails"]["database"]["port"]       = 5432
+
+# default["app-rails"]["ssl"]                    = node["app-rails"]["environment"] == "production"
+
+# default["nginx"]["default_site_enabled"]       = false
 
 # build-essential
 default['build-essential']['compile_time'] = true
