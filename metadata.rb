@@ -8,7 +8,7 @@ version          '0.1.0'
 
 
 depends 'build-essential', '~> 2.2.4'
-depends 'rbenv', '~> 1.7.1'
+depends 'ruby_build'
 depends 'postgresql', '~> 4.0.0'
 depends 'database', '~> 4.0.9'
 depends 'redisio'
