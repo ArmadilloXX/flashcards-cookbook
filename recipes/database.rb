@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "flashcards-cookbook::general"
 include_recipe "postgresql::server"
 include_recipe "database::postgresql"
 
@@ -14,29 +15,29 @@ include_recipe "database::postgresql"
 postgresql_connection_info = {
   host: node["postgresql"]["config"]["listen_addresses"],
   port: node["postgresql"]["config"]["port"],
-  username: node['postgresql']['username']['postgres'],
+  username: node["postgresql"]["username"]["postgres"],
   password: node["postgresql"]["password"]["postgres"]
 }
 
-# Create database superuser
-postgresql_database_user node["webapp"]["username"] do
+# Create application database user
+postgresql_database_user node["application"]["database"]["username"] do
   connection postgresql_connection_info
-  superuser true
-  password "vagrant" #TODO Encrypt?
+  superuser true # TODO Grant privileges instead of create superuser
+  password node["application"]["database"]["password"]
   action :create
 end
 
 # Add default db config file
 
 # Prepare databases
-bash "preparation" do
-  cwd node["webapp"]["directory"]
-  user node["webapp"]["username"]
-  code <<-CMDS
-    rake db:create
-    rake db:migrate
-    rake db:seed
-  CMDS
-end
+# bash "preparation" do
+#   cwd node["webapp"]["directory"]
+#   user node["webapp"]["username"]
+#   code <<-CMDS
+#     rake db:create
+#     rake db:migrate
+#     rake db:seed
+#   CMDS
+# end
 
 
