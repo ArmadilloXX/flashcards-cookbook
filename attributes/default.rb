@@ -1,19 +1,21 @@
-default["application"]['ruby_version'] = '2.2.3'
-default["application"]['gems_to_install'] = ['bundler', 'rbenv-rehash']
+default["application"]["name"] = "flashcards"
+default["application"]["ruby_version"] = "2.2.3"
+default["application"]["deploy"]["user"] = "deployer"
+default["application"]["deploy"]["deploy_to"] = "/var/www/#{node['application']['name']}"
+default["application"]["deploy"]["repository"] = "https://github.com/ArmadilloXX/flashcards.git"
+default["application"]["deploy"]["revision"] = "original_firehose"
+default["application"]["environment"] = %w(production staging).include?(node.chef_environment) ? node.chef_environment : "development"
+# default['application']['public_key']
+# default['application']['deploy_key']
+
+default["application"]["database"]["username"] = node["application"]["database"]["username"]
+default["application"]["database"]["password"] = node["application"]["database"]["password"]
+default["application"]["database"]["host"] = node["application"]["database"]["host"]
+default["application"]["database"]["port"] = node["application"]["database"]["port"]
+default["application"]["database"]["name"] = "#{default['application']['name']}_#{default['application']['environment']}"
+
 # default["app-rails"]["app_server"]             = "passenger"
-
-# default["app-rails"]["environment"]            = %w(production staging).include?(node.chef_environment) ? node.chef_environment : "development"
-# default["app-rails"]["ruby_version"]           = "2.2.3"
-
 # default["app-rails"]["deploy"]["force_assets"] = true
-# default["app-rails"]["deploy"]["revision"]     = "master"
-# default["app-rails"]["deploy"]["user"]         = "deployer"
-# default["app-rails"]["deploy"]["deploy_to"]    = "/var/www/#{node["app-rails"]["name"]}"
-
-# default["app-rails"]["database"]["name"]       = "#{node["app-rails"]["name"]}_#{node["app-rails"]["environment"]}"
-# default["app-rails"]["database"]["user"]       = "postgres"
-# default["app-rails"]["database"]["host"]       = "localhost"
-# default["app-rails"]["database"]["port"]       = 5432
 
 # default["app-rails"]["ssl"]                    = node["app-rails"]["environment"] == "production"
 
