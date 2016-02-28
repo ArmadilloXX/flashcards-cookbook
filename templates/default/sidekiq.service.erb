@@ -1,0 +1,16 @@
+[Unit]
+Description=<%= node['application']['environment'] %> sidekiq instance
+
+[Service]
+User=<%= node['application']['deploy']["user"] %>
+Group=<%= node['application']['deploy']["user"] %>
+WorkingDirectory=<%= "#{node['application']['deploy']["deploy_to"]}/current" %>
+Environment=RAILS_ENV=<%= node['application']['environment'] %>
+SyslogIdentifier=<%= node['application']["name"] %>-sidekiq
+PIDFile=<%= "#{node['application']['deploy']["deploy_to"]}/shared/pids/sidekiq.pid" %>
+Restart=always
+ExecStart=/usr/bin/bundle exec sidekiq -e <%= node['application']['environment'] %> -P <%= "#{node['application']['deploy']["deploy_to"]}/shared/pids/sidekiq.pid" %>
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
