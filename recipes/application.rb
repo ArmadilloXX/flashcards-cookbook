@@ -23,6 +23,44 @@ gem_package 'bundler' do
   options '--no-ri --no-rdoc'
 end
 
+# user_account node['app-rails']['deploy']['user'] do
+#   create_group true
+#   ssh_keygen false
+# end
+
+########################################
+# NGINX
+########################################
+
+template "#{node['nginx']['dir']}/sites-available/#{node['application']['name']}" do
+  source "nginx.#{node['application']['app_server']}.erb"
+  owner node['nginx']['user']
+  group node['nginx']['user']
+  mode 0644
+end
+
+# if node["application"]["ssl"]
+#   file "#{node['nginx']['dir']}/#{node['application']['name']}.crt" do
+#     content node['application']['ssl_crt']
+#     owner node['nginx']['user']
+#     group node['nginx']['user']
+#     mode 0644
+#     only_if { node['application']['ssl'] }
+#   end
+
+#   file "#{node['nginx']['dir']}/#{node['application']['name']}.key" do
+#     content node['application']['ssl_key']
+#     mode 0644
+#     owner node['nginx']['user']
+#     group node['nginx']['user']
+#     only_if { node['application']['ssl'] }
+#   end
+# end
+
+nginx_site node['application']['name'] do
+  enable true
+end
+
 ########################################
 # Setup deployment ssh keys
 ########################################

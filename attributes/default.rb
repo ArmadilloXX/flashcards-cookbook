@@ -1,6 +1,8 @@
 default["application"]["name"] = "flashcards"
 default["application"]["ruby_version"] = "2.2.3"
 default["application"]["app_server"] = "unicorn"
+# default["application"]["fqdn"] = ""
+default["application"]["ssl"] = node["application"]["environment"] == "production"
 default["application"]["deploy"]["user"] = "deployer"
 default["application"]["deploy"]["deploy_to"] = "/var/www/#{node['application']['name']}"
 default["application"]["deploy"]["repository"] = "https://github.com/ArmadilloXX/flashcards.git"
@@ -17,7 +19,7 @@ default["application"]["database"]["name"] = "#{default['application']['name']}_
 
 # default["app-rails"]["deploy"]["force_assets"] = true
 
-# default["app-rails"]["ssl"]                    = node["app-rails"]["environment"] == "production"
+
 
 # default["nginx"]["default_site_enabled"]       = false
 
