@@ -74,22 +74,15 @@ end
 # Sidekiq setup
 ########################################
 
-# template "/etc/systemd/system/sidekiq.service" do
-#   source "sidekiq.service.erb"
-#   mode 0644
-# end
+template "/etc/systemd/system/sidekiq.service" do
+  source "sidekiq.service.erb"
+  mode 0644
+end
 
-# service "sidekiq" do
-#   supports restart: true, start: true, stop: true
-#   action :nothing
-# end
-
-# Prepare application
-# bash "preparation" do
-#   cwd node["application"]["directory"]
-#   user node["application"]["username"]
-#   code "bundle install"
-# end
+service "sidekiq" do
+  supports restart: true, start: true, stop: true
+  action :nothing
+end
 
 ########################################
 # Application environment variables
