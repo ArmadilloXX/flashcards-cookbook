@@ -8,7 +8,7 @@ default["application"]["environment"] = %w(production staging).include?(node.che
 # default['application']['public_key']
 # default['application']['deploy_key']
 
-default["application"]["database"]["username"] = node["application"]["database"]["username"]
+default["application"]["database"]["username"] = node["application"]["database"]["user"]
 default["application"]["database"]["password"] = node["application"]["database"]["password"]
 default["application"]["database"]["host"] = node["application"]["database"]["host"]
 default["application"]["database"]["port"] = node["application"]["database"]["port"]
