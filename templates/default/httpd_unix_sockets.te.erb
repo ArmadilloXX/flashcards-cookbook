@@ -1,0 +1,17 @@
+module httpd_unix_sockets 1.0;
+
+require {
+  type init_t;
+  type httpd_t;
+  type httpd_sys_content_t;
+  class sock_file write;
+  class unix_stream_socket connectto;
+  class capability2 block_suspend;
+}
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t httpd_sys_content_t:sock_file write;
+allow httpd_t init_t:unix_stream_socket connectto;
+allow httpd_t self:capability2 block_suspend;

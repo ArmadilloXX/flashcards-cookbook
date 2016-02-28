@@ -1,0 +1,16 @@
+[Unit]
+Description=<%= node['application']['environment'] %> unicorn server
+
+[Service]
+User=<%= node['application']['deploy']["user"] %>
+Group=<%= node['application']['deploy']["user"] %>
+WorkingDirectory=<%= "#{node['application']['deploy']['deploy_to']}/current" %>
+Environment=RAILS_ENV=<%= node['application']['environment'] %>
+SyslogIdentifier=<%= node['application']['name'] %>-unicorn
+PIDFile=<%= "#{node['application']['deploy']['deploy_to']}/shared/pids/unicorn.pid" %>
+Restart=always
+ExecStart=/usr/bin/bundle exec "unicorn_rails -c <%= "#{node['application']['deploy']['deploy_to']}/current/config/unicorn.rb" %> -E <%= node['application']['environment'] %> -D"
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
