@@ -71,6 +71,42 @@ end
 end
 
 ########################################
+# App server setup
+########################################
+
+app_server = node["application"]["app_server"]
+
+template "/opt/httpd_unix_sockets.te" do
+  source "httpd_unix_sockets.te.erb"
+end
+
+bash "install_selinux_httpd_unix_module" do
+  code <<-EOF
+    checkmodule -M -m -o /opt/httpd_unix_sockets.mod /opt/httpd_unix_sockets.te
+    semodule_package -o /opt/httpd_unix_sockets.pp -m /opt/httpd_unix_sockets.mod
+    semodule -i /opt/httpd_unix_sockets.pp
+  EOF
+  not_if { ::File.exists?("/opt/httpd_unix_sockets.pp") }
+end
+
+template "/etc/systemd/system/#{node['application']["name"]}-#{app_server}.service" do
+  source "#{app_server}.service.erb"
+  owner node['application']['deploy']['user']
+  group node['application']['deploy']['user']
+end
+
+service "#{node['application']["name"]}-#{app_server}" do
+  provider Chef::Provider::Service::Systemd
+  action :enable
+end
+
+template "#{node['application']['deploy']["deploy_to"]}/shared/config/#{app_server}.rb" do
+  source "#{app_server}.rb.erb"
+  owner node['application']['deploy']['user']
+  group node['application']['deploy']['user']
+end
+
+########################################
 # Sidekiq setup
 ########################################
 
