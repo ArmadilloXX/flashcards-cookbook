@@ -1,15 +1,20 @@
 default["application"]["name"] = "flashcards"
 default["application"]["ruby_version"] = "2.2.3"
 default["application"]["app_server"] = "unicorn"
-# default["application"]["fqdn"] = ""
-default["application"]["ssl"] = node["application"]["environment"] == "production"
+default["application"]["fqdn"] = "localhost"
+default["application"]["environment"] = %w(production staging).include?(node.chef_environment) ? node.chef_environment : "development"
+default["application"]["deploy"]["force_assets"] = true
+# default['application']['ssl_crt']
+# default['application']['ssl_key']
+# default['application']['public_key']
+# default['application']['deploy_key']
+# default["application"]["ssl"] = node["application"]["environment"] == "production"
 default["application"]["deploy"]["user"] = "deployer"
 default["application"]["deploy"]["deploy_to"] = "/var/www/#{node['application']['name']}"
 default["application"]["deploy"]["repository"] = "https://github.com/ArmadilloXX/flashcards.git"
 default["application"]["deploy"]["revision"] = "original_firehose"
-default["application"]["environment"] = %w(production staging).include?(node.chef_environment) ? node.chef_environment : "development"
-# default['application']['public_key']
-# default['application']['deploy_key']
+
+
 
 default["application"]["database"]["username"] = node["application"]["database"]["user"]
 default["application"]["database"]["password"] = node["application"]["database"]["password"]
