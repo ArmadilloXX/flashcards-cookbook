@@ -3,8 +3,8 @@ include_recipe "flashcards-cookbook::default"
 
 symlinks = {".env" => ".env"}
 
-# app_server = node["app-rails"]["app_server"]
-# symlinks.merge!("config/#{app_server}.rb" => "config/#{app_server}.rb") unless app_server == "passenger"
+app_server = node["application"]["app_server"]
+symlinks.merge!("config/#{app_server}.rb" => "config/#{app_server}.rb") unless app_server == "passenger"
 
 deploy node['application']["deploy"]["deploy_to"] do
   repo node['application']["deploy"]["repository"]
@@ -41,7 +41,8 @@ deploy node['application']["deploy"]["deploy_to"] do
       cwd release_path
       environment "RAILS_ENV" => node['application']['environment']
       # only_if {
-      #   node['application']["deploy"]["force_assets"] || files_changed?(release_path, "#{node['application']["deploy"]["deploy_to"]}/shared/previous_revision", "app/assets lib/assets vendor/assets config/environments/#{node['application']['environment']}.rb")
+      #   node['application']["deploy"]["force_assets"]
+      #   # node['application']["deploy"]["force_assets"] || files_changed?(release_path, "#{node['application']["deploy"]["deploy_to"]}/shared/previous_revision", "app/assets lib/assets vendor/assets config/environments/#{node['application']['environment']}.rb")
       # }
     end
 
@@ -62,12 +63,10 @@ deploy node['application']["deploy"]["deploy_to"] do
 
   end
 
-  # unless node["application"]["app_server"] == "passenger"
-  #   notifies :restart, "service[#{node['application']["name"]}-#{node['application']['app_server']}]"
-  # end
-
+  notifies :restart, "service[#{node['application']["name"]}-#{node['application']['app_server']}]"
   # notifies :restart, "service[#{node['application']["name"]}-sidekiq]"
-  # notifies :restart, "service[nginx]"
+  notifies :restart, "service[sidekiq]"
+  notifies :restart, "service[nginx]"
 
   action :deploy
 end
