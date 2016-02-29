@@ -9,6 +9,7 @@
 
 include_recipe "flashcards-cookbook::general"
 include_recipe 'ruby_build'
+include_recipe 'nginx'
 include_recipe "imagemagick"
 # include_recipe "phantomjs::default"
 
