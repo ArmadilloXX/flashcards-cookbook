@@ -3,7 +3,7 @@ upstream app_server {
 }
 
 server {
-  listen 80;
+  listen 3000;
   server_name <%= node['application']['fqdn'] %>;
 
 <% if node['application']['ssl'] %>
