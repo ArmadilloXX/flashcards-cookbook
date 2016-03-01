@@ -10,6 +10,11 @@ postgresql_connection_info = {
   password: node["postgresql"]["password"]["postgres"]
 }
 
+postgresql_database "#{node['application']['name']}_#{node['application']['environment']}" do
+  connection postgresql_connection_info
+  action     :create
+end
+
 # Create application database user
 postgresql_database_user node["application"]["database"]["username"] do
   connection postgresql_connection_info
@@ -20,10 +25,7 @@ end
 # Grant privileges to  application database user
 postgresql_database_user node["application"]["database"]["username"] do
   connection    postgresql_connection_info
-  database_name "#{default['application']['name']}_#{default['application']['environment']}"
+  database_name "#{node['application']['name']}_#{node['application']['environment']}"
   privileges    [:all]
   action        :grant
 end
-
-
-
