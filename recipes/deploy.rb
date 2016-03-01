@@ -10,7 +10,7 @@ deploy node['application']["deploy"]["deploy_to"] do
   repo node['application']["deploy"]["repository"]
   branch node['application']["deploy"]["revision"]
   migrate true
-  migration_command "bundle exec rake db:create && bundle exec rake db:migrate"
+  migration_command "bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rake db:seed"
   environment 'RAILS_ENV' => node['application']['environment']
 
   # ssh_wrapper "#{node['application']["deploy"]["deploy_to"]}/wrap-ssh4git.sh"
