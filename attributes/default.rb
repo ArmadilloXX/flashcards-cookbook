@@ -12,7 +12,7 @@ default["application"]["deploy"]["force_assets"] = true
 default["application"]["deploy"]["user"] = "deployer"
 default["application"]["deploy"]["deploy_to"] = "/var/www/#{node['application']['name']}"
 default["application"]["deploy"]["repository"] = "https://github.com/ArmadilloXX/flashcards.git"
-default["application"]["deploy"]["revision"] = "original_firehose"
+default["application"]["deploy"]["revision"] = "add_kinesis"
 
 
 
