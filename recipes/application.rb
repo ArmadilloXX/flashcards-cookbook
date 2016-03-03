@@ -164,6 +164,8 @@ end
 # Application environment variables
 ########################################
 
+vault = chef_vault_item(:credentials, 'database')
+
 template "#{node['application']['deploy']["deploy_to"]}/shared/.env" do
   source "dotenv.erb"
   owner node['application']['deploy']['user']
@@ -175,7 +177,9 @@ template "#{node['application']['deploy']["deploy_to"]}/shared/.env" do
       "DATABASE_NAME"     => node['application']["database"]["name"],
       "DATABASE_PASSWORD" => node['application']["database"]["password"],
       "DATABASE_PORT"     => node['application']["database"]["port"],
-      "DATABASE_USERNAME" => node['application']["database"]['user']
+      "DATABASE_USERNAME" => node['application']["database"]['user'],
+      "TEST_USER" => vault['user'],
+      "TEST_PASSWORD" => vault['password']
     })
   )
 end
