@@ -2,6 +2,7 @@ default["application"]["name"] = "flashcards"
 default["application"]["ruby_version"] = "2.2.3"
 default["application"]["app_server"] = "unicorn"
 default["application"]["fqdn"] = "localhost"
+default['application']['env_vars'] = {}
 default["application"]["environment"] = %w(production staging).include?(node.chef_environment) ? node.chef_environment : "development"
 default["application"]["deploy"]["force_assets"] = true
 # default['application']['ssl_crt']
