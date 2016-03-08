@@ -164,13 +164,12 @@ end
 # Application environment variables
 ########################################
 
-chef_vault_secret 'new_credentials' do
-  data_bag 'database'
-  raw_data({'user' => 'test_user', 'password' => 'testpass'})
-  admins 'admin'
-  clients 'application-192.168.50.101'
-  search '*:*'
-end
+# chef_vault_secret 'credentials' do
+#   data_bag 'database'
+#   raw_data({'user' => 'test_user', 'password' => 'testpass'})
+#   admins 'application-192.168.50.101'
+#   clients 'application-192.168.50.101'
+# end
 
 # vault = chef_vault_item('credentials', 'database')
 
