@@ -13,7 +13,7 @@ default["application"]["deploy"]["force_assets"] = true
 default["application"]["deploy"]["user"] = "deployer"
 default["application"]["deploy"]["deploy_to"] = "/var/www/#{node['application']['name']}"
 default["application"]["deploy"]["repository"] = "https://github.com/ArmadilloXX/flashcards.git"
-default["application"]["deploy"]["revision"] = "add_kinesis"
+default["application"]["deploy"]["revision"] = "master"
 
 
 
@@ -30,7 +30,7 @@ default["application"]["database"]["name"] = "#{default['application']['name']}_
 # default["nginx"]["default_site_enabled"]       = false
 
 # build-essential
-default['build-essential']['compile_time'] = true
+# default['build-essential']['compile_time'] = true
 
 # Postgresql
 default['postgresql']['version'] = "9.4"
@@ -65,9 +65,9 @@ default['java']['jdk_version'] = 8
 default['elasticsearch']['version'] = '2.1.1'
 
 # Kibana
-default['kibana']['download_url'] = 'https://download.elastic.co/kibana/kibana/kibana-4.3.1-linux-x64.tar.gz'
-default['kibana']['checksum'] = 'c6a91921a0055714fd24fb94a70b7057f43492da6bd8c4f2f1acbf0964bf09b9'
-default['kibana']['version'] = '4.3.1'
-default['kibana']['config']['base_dir'] = '/opt/kibana'
-default['kibana']['access']['username'] = 'testuser'
-default['kibana']['access']['password'] = 'testpass' #TODO - Encrypt?
+# default['kibana']['download_url'] = 'https://download.elastic.co/kibana/kibana/kibana-4.3.1-linux-x64.tar.gz'
+# default['kibana']['checksum'] = 'c6a91921a0055714fd24fb94a70b7057f43492da6bd8c4f2f1acbf0964bf09b9'
+# default['kibana']['version'] = '4.3.1'
+# default['kibana']['config']['base_dir'] = '/opt/kibana'
+# default['kibana']['access']['username'] = 'testuser'
+# default['kibana']['access']['password'] = 'testpass' #TODO - Encrypt?

@@ -1,3 +1,14 @@
+kibana_config = data_bag_item("general", "kibana")
+
+kibana_config.to_hash.each do |key, value|
+  node.default["kibana"][key] = case value
+                             when Hash
+                               Chef::Mixin::DeepMerge.merge(node['kibana'][key], value)
+                             else
+                               value
+                             end
+end
+
 include_recipe 'simple-kibana::user'
 include_recipe 'simple-kibana::install'
 include_recipe 'simple-kibana::configure'
