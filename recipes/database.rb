@@ -1,11 +1,15 @@
+include_recipe "chef-vault"
+data_bags = %w(general config credentials)
+set_item_attributes_from_data_bags(data_bags, "postgresql")
+
 include_recipe "flashcards-cookbook::general"
 include_recipe "postgresql::server"
 include_recipe "database::postgresql"
 
 # Prepare database connection
 postgresql_connection_info = {
-  host: node["postgresql"]["config"]["listen_addresses"],
-  port: node["postgresql"]["config"]["port"],
+  host:     node["postgresql"]["config"]["listen_addresses"],
+  port:     node["postgresql"]["config"]["port"],
   username: node["postgresql"]["username"]["postgres"],
   password: node["postgresql"]["password"]["postgres"]
 }

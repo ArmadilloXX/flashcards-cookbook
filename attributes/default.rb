@@ -33,19 +33,19 @@ default["application"]["database"]["name"] = "#{default['application']['name']}_
 # default['build-essential']['compile_time'] = true
 
 # Postgresql
-default['postgresql']['version'] = "9.4"
-default['postgresql']['enable_pgdg_yum'] = true
-default['postgresql']['dir'] = "/var/lib/pgsql/9.4/data"
-default['postgresql']['config']['data_directory'] = default['postgresql']['dir']
-default['postgresql']['client']['packages'] = ["postgresql94", "postgresql94-devel"]
-default['postgresql']['server']['packages'] = ["postgresql94-server"]
-default['postgresql']['server']['service_name'] = "postgresql-9.4"
-default['postgresql']['contrib']['packages'] = ["postgresql94-contrib"]
-default['postgresql']['setup_script'] = "postgresql94-setup"
-default['postgresql']['username']['postgres'] = 'postgres'
-default['postgresql']['password']['postgres'] = 'testpass' #TODO - Encrypt?
-default['postgresql']['config']['port'] = 5432
-default['postgresql']['config']['listen_addresses'] = "*"
+# default['postgresql']['version'] = "9.4"
+# default['postgresql']['enable_pgdg_yum'] = true
+# default['postgresql']['dir'] = "/var/lib/pgsql/9.4/data"
+# default['postgresql']['config']['data_directory'] = default['postgresql']['dir']
+# default['postgresql']['client']['packages'] = ["postgresql94", "postgresql94-devel"]
+# default['postgresql']['server']['packages'] = ["postgresql94-server"]
+# default['postgresql']['server']['service_name'] = "postgresql-9.4"
+# default['postgresql']['contrib']['packages'] = ["postgresql94-contrib"]
+# default['postgresql']['setup_script'] = "postgresql94-setup"
+# default['postgresql']['username']['postgres'] = 'postgres'
+# default['postgresql']['password']['postgres'] = 'testpass' #TODO - Encrypt?
+# default['postgresql']['config']['port'] = 5432
+# default['postgresql']['config']['listen_addresses'] = "*"
 pg_conf = default['postgresql']['pg_hba'] << {
   type: "host",
   db: "all",
