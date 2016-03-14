@@ -29,3 +29,14 @@ def get_data_bag_item(data_bag, item)
     chef_vault_item(data_bag, item)
   end
 end
+
+def set_pg_conf_records
+  item = data_bag_item("credentials", "pg_conf_records").to_hash
+  pg_conf = node['postgresql']['pg_hba'].dup
+  item["records"].each { |record| pg_conf << record }
+  node.default["postgresql"]["pg_hba"] = pg_conf
+end
+
+def db_users
+  item = data_bag_item("credentials", "database_users").to_hash
+end

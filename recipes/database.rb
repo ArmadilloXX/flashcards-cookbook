@@ -1,10 +1,7 @@
 include_recipe "chef-vault"
 data_bags = %w(general config credentials)
 set_item_attributes_from_data_bags(data_bags, "postgresql")
-pg_conf_records = data_bag_item("credentials", "pg_conf_records").to_hash
-pg_conf_records[:records].each do |record|
-  default['postgresql']['pg_hba'] << record
-end
+set_pg_conf_records
 
 include_recipe "flashcards-cookbook::general"
 include_recipe "postgresql::server"
@@ -23,17 +20,20 @@ postgresql_database "#{node['application']['name']}_#{node['application']['envir
   action     :create
 end
 
+db_users.each do |user|
 # Create application database user
-postgresql_database_user node["application"]["database"]["username"] do
-  connection postgresql_connection_info
-  password node["application"]["database"]["password"]
-  action :create
-end
+  postgresql_database_user user["name"] do
+    connection postgresql_connection_info
+    password user["password"]
+    action :create
+  end
 
-# Grant privileges to  application database user
-postgresql_database_user node["application"]["database"]["username"] do
-  connection    postgresql_connection_info
-  database_name "#{node['application']['name']}_#{node['application']['environment']}"
-  privileges    [:all]
-  action        :grant
+  # Grant privileges to  application database user
+  postgresql_database_user user[:name] do
+    connection    postgresql_connection_info
+    database_name user[:database_name]
+    # database_name "#{node['application']['name']}_#{node['application']['environment']}"
+    privileges    user[:privileges].map { |p| p.to_sym }
+    action        :grant
+  end
 end
