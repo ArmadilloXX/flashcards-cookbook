@@ -8,7 +8,7 @@ include_recipe 'nginx'
 include_recipe "imagemagick"
 # include_recipe "phantomjs::default"
 
-ruby_build_ruby node['application']['ruby_version'] do
+ruby_build_ruby node["application"]["ruby_version"] do
   prefix_path '/usr/'
   action :reinstall
   not_if "test $(ruby -v | grep #{node["application"]["ruby_version"]} | wc -l) = 1"

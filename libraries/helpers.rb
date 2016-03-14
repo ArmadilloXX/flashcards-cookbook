@@ -38,5 +38,6 @@ def set_pg_conf_records
 end
 
 def db_users
-  item = data_bag_item("credentials", "database_users").to_hash
+  item = data_bag_item("credentials", "database_users")
+  item["db_users"]
 end
