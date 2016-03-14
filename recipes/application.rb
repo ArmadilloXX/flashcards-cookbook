@@ -11,7 +11,6 @@ include_recipe "flashcards-cookbook::general"
 include_recipe 'ruby_build'
 include_recipe 'nginx'
 include_recipe "imagemagick"
-include_recipe "chef-vault"
 # include_recipe "phantomjs::default"
 
 ruby_build_ruby node['application']['ruby_version'] do

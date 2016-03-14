@@ -16,6 +16,3 @@ include_recipe "build-essential"
     action :install
   end
 end
-
-
-

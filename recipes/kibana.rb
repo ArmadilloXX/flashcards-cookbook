@@ -1,14 +1,6 @@
-kibana_config = data_bag_item("general", "kibana")
-
-kibana_config.to_hash.each do |key, value|
-  node.default["kibana"][key] = case value
-                             when Hash
-                               Chef::Mixin::DeepMerge.merge(node['kibana'][key], value)
-                             else
-                               value
-                             end
-end
-
+include_recipe "chef-vault"
+set_attrs_from_data_bag("general", "kibana")
+set_attrs_from_data_bag("config", "kibana")
 include_recipe 'simple-kibana::user'
 include_recipe 'simple-kibana::install'
 include_recipe 'simple-kibana::configure'
@@ -27,7 +19,7 @@ end
 service "kibana" do
   provider Chef::Provider::Service::Systemd
   supports start: true, restart: true, stop: true, status: true
-  action [:enable, :start]
+  action [:enable, :restart]
 end
 
 ########################################
