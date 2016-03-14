@@ -1,11 +1,6 @@
-#
-# Cookbook Name:: flashcards-cookbook
-# Recipe:: application
-#
-# Copyright (C) 2015 YOUR_NAME
-#
-# All rights reserved - Do Not Redistribute
-#
+include_recipe "chef-vault"
+data_bags = %w(general config credentials)
+set_item_attributes_from_data_bags(data_bags, "application")
 
 include_recipe "flashcards-cookbook::general"
 include_recipe 'ruby_build'
@@ -162,15 +157,6 @@ end
 ########################################
 # Application environment variables
 ########################################
-
-# chef_vault_secret 'credentials' do
-#   data_bag 'database'
-#   raw_data({'user' => 'test_user', 'password' => 'testpass'})
-#   admins 'application-192.168.50.101'
-#   clients 'application-192.168.50.101'
-# end
-
-# vault = chef_vault_item('credentials', 'database')
 
 template "#{node['application']['deploy']["deploy_to"]}/shared/.env" do
   source "dotenv.erb"

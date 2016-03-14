@@ -1,6 +1,10 @@
 include_recipe "chef-vault"
 data_bags = %w(general config credentials)
 set_item_attributes_from_data_bags(data_bags, "postgresql")
+pg_conf_records = data_bag_item("credentials", "pg_conf_records").to_hash
+pg_conf_records[:records].each do |record|
+  default['postgresql']['pg_hba'] << record
+end
 
 include_recipe "flashcards-cookbook::general"
 include_recipe "postgresql::server"
