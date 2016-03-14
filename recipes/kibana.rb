@@ -1,6 +1,7 @@
 include_recipe "chef-vault"
 set_attrs_from_data_bag("general", "kibana")
 set_attrs_from_data_bag("config", "kibana")
+set_attrs_from_data_bag("credentials", "kibana")
 include_recipe 'simple-kibana::user'
 include_recipe 'simple-kibana::install'
 include_recipe 'simple-kibana::configure'
