@@ -3,20 +3,33 @@ data_bags = %w(general config credentials)
 set_item_attributes_from_data_bags(data_bags, "application")
 
 include_recipe "flashcards-cookbook::general"
-include_recipe 'ruby_build'
+# include_recipe 'ruby_build'
+include_recipe "rbenv::default"
+include_recipe "rbenv::ruby_build"
 include_recipe 'nginx'
 include_recipe "imagemagick"
 # include_recipe "phantomjs::default"
 
-ruby_build_ruby node["application"]["ruby_version"] do
-  prefix_path '/usr/'
-  action :reinstall
-  not_if "test $(ruby -v | grep #{node["application"]["ruby_version"]} | wc -l) = 1"
+# ruby_build_ruby node["application"]["ruby_version"] do
+#   prefix_path '/usr/'
+#   action :reinstall
+#   not_if "test $(ruby -v | grep #{node["application"]["ruby_version"]} | wc -l) = 1"
+# end
+
+# gem_package 'bundler' do
+#   gem_binary '/usr/bin/gem'
+#   options '--no-ri --no-rdoc'
+# end
+
+rbenv_ruby node["application"]["ruby_version"] do
+  ruby_version node["application"]["ruby_version"]
+  global true
 end
 
-gem_package 'bundler' do
-  gem_binary '/usr/bin/gem'
-  options '--no-ri --no-rdoc'
+rbenv_gem "bundler" do
+  ruby_version node["application"]["ruby_version"]
+  # gem_binary '/usr/bin/gem'
+  # options '--no-ri --no-rdoc'
 end
 
 # user_account node['app-rails']['deploy']['user'] do
@@ -131,6 +144,7 @@ end
 
 service "#{node['application']["name"]}-#{app_server}" do
   provider Chef::Provider::Service::Systemd
+  supports restart: true, start: true, stop: true
   action :enable
 end
 
