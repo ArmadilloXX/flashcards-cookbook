@@ -7,6 +7,7 @@ long_description 'Installs/Configures flashcards mkdev.me course app'
 version          '0.1.0'
 
 depends 'build-essential'
+depends 'user'
 depends 'rbenv'
 depends 'postgresql'
 depends 'database'
