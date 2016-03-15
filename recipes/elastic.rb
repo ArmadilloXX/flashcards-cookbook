@@ -11,8 +11,7 @@ elasticsearch_configure "elasticsearch" do
       "network.bind_host" => 0,
       "network.host" => "0.0.0.0",
       "script.inline" => "sandbox",
-      "script.aggs" => "on",
-
+      "script.aggs" => "on"
     })
 end
 elasticsearch_service "elasticsearch" do

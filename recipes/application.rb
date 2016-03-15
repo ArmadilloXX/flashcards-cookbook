@@ -3,23 +3,10 @@ data_bags = %w(general config credentials)
 set_item_attributes_from_data_bags(data_bags, "application")
 
 include_recipe "flashcards-cookbook::general"
-# include_recipe 'ruby_build'
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 include_recipe 'nginx'
 include_recipe "imagemagick"
-# include_recipe "phantomjs::default"
-
-# ruby_build_ruby node["application"]["ruby_version"] do
-#   prefix_path '/usr/'
-#   action :reinstall
-#   not_if "test $(ruby -v | grep #{node["application"]["ruby_version"]} | wc -l) = 1"
-# end
-
-# gem_package 'bundler' do
-#   gem_binary '/usr/bin/gem'
-#   options '--no-ri --no-rdoc'
-# end
 
 rbenv_ruby node["application"]["ruby_version"] do
   ruby_version node["application"]["ruby_version"]
@@ -29,13 +16,12 @@ end
 rbenv_gem "bundler" do
   ruby_version node["application"]["ruby_version"]
   # gem_binary '/usr/bin/gem'
-  # options '--no-ri --no-rdoc'
 end
 
-# user_account node['app-rails']['deploy']['user'] do
-#   create_group true
-#   ssh_keygen false
-# end
+user_account node['application']['deploy']['user'] do
+  create_group true
+  ssh_keygen false
+end
 
 ########################################
 # NGINX
@@ -158,7 +144,7 @@ end
 # Sidekiq setup
 ########################################
 
-template "/etc/systemd/system/sidekiq.service" do
+template "/etc/systemd/system/#{node['application']["name"]}-sidekiq.service" do
   source "sidekiq.service.erb"
   mode 0644
 end
@@ -184,10 +170,6 @@ template "#{node['application']['deploy']["deploy_to"]}/shared/.env" do
       "DATABASE_PASSWORD" => node['application']["database"]["password"],
       "DATABASE_PORT"     => node['application']["database"]["port"],
       "DATABASE_USERNAME" => node['application']["database"]['user']
-      # "TEST_USER" => vault['user'],
-      # "TEST_PASSWORD" => vault['password']
     })
   )
 end
-# Start application server
-

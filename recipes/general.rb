@@ -1,12 +1,3 @@
-#
-# Cookbook Name:: flashcards-cookbook
-# Recipe:: general
-#
-# Copyright (C) 2015 YOUR_NAME
-#
-# All rights reserved - Do Not Redistribute
-#
-
 include_recipe "build-essential"
 
 %w(postgresql-libs postgresql-devel openssl-devel libyaml-devel libffi-devel

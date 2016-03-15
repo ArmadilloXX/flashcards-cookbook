@@ -20,15 +20,14 @@ postgresql_database "#{node['application']['name']}_#{node['application']['envir
   action     :create
 end
 
+# Create database users and grants privileges to them
 db_users.each do |user|
-# Create application database user
   postgresql_database_user user["username"] do
     connection postgresql_connection_info
     password user["password"]
     action :create
   end
 
-  # Grant privileges to  application database user
   postgresql_database_user user["username"] do
     connection    postgresql_connection_info
     database_name user["database_name"]

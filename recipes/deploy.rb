@@ -35,7 +35,6 @@ deploy node['application']["deploy"]["deploy_to"] do
   end
 
   before_restart do
-
     execute "precompile_assets" do
       command "bundle exec rake assets:precompile && rm -rf #{release_path}/tmp/cache"
       cwd release_path
@@ -45,11 +44,9 @@ deploy node['application']["deploy"]["deploy_to"] do
       #   # node['application']["deploy"]["force_assets"] || files_changed?(release_path, "#{node['application']["deploy"]["deploy_to"]}/shared/previous_revision", "app/assets lib/assets vendor/assets config/environments/#{node['application']['environment']}.rb")
       # }
     end
-
   end
 
   after_restart do
-
     # execute "update_crontab" do
     #   command "bundle exec whenever --update-crontab '#{node['application']['name']}_#{node['application']['environment']}'"
     #   cwd release_path
@@ -60,12 +57,10 @@ deploy node['application']["deploy"]["deploy_to"] do
       command "git rev-parse HEAD > #{node['application']["deploy"]["deploy_to"]}/shared/previous_revision"
       cwd release_path
     end
-
   end
 
   notifies :restart, "service[#{node['application']["name"]}-#{node['application']['app_server']}]"
-  # notifies :restart, "service[#{node['application']["name"]}-sidekiq]"
-  notifies :restart, "service[sidekiq]"
+  notifies :restart, "service[#{node['application']["name"]}-sidekiq]"
   notifies :restart, "service[nginx]"
 
   action :deploy
