@@ -149,7 +149,7 @@ template "/etc/systemd/system/#{node['application']["name"]}-sidekiq.service" do
   mode 0644
 end
 
-service "sidekiq" do
+service "#{node['application']["name"]}-sidekiq" do
   supports restart: true, start: true, stop: true
   action :nothing
 end
