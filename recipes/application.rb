@@ -1,6 +1,6 @@
 include_recipe "chef-vault"
-data_bags = %w(general config credentials)
-set_item_attributes_from_data_bags(data_bags, "application")
+data_bag_items = %w(config credentials)
+set_default_attributes_from_data_bag("application", data_bag_items)
 
 include_recipe "flashcards-cookbook::general"
 include_recipe "rbenv::default"

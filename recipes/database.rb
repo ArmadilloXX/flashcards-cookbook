@@ -1,6 +1,6 @@
 include_recipe "chef-vault"
-data_bags = %w(general config credentials)
-set_item_attributes_from_data_bags(data_bags, "postgresql")
+data_bag_items = %w(config credentials)
+set_default_attributes_from_data_bag("postgresql", data_bag_items)
 set_additional_pg_hba_records
 
 include_recipe "flashcards-cookbook::general"
@@ -21,7 +21,7 @@ postgresql_database "#{node['application']['name']}_#{node['application']['envir
 end
 
 # Create database users and grants privileges to them
-db_users.each do |user|
+database_users.each do |user|
   postgresql_database_user user["username"] do
     connection postgresql_connection_info
     password user["password"]
