@@ -30,11 +30,11 @@ def get_data_bag_item(data_bag, item)
   end
 end
 
-def set_pg_conf_records
-  item = data_bag_item("credentials", "pg_conf_records").to_hash
-  pg_conf = node['postgresql']['pg_hba'].dup
-  item["records"].each { |record| pg_conf << record }
-  node.default["postgresql"]["pg_hba"] = pg_conf
+def set_additional_pg_hba_records
+  item = data_bag_item("credentials", "pg_hba_records").to_hash
+  pg_hba = node['postgresql']['pg_hba'].dup
+  item["records"].each { |record| pg_hba << record }
+  node.default["postgresql"]["pg_hba"] = pg_hba
 end
 
 def db_users

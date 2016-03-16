@@ -1,7 +1,7 @@
 include_recipe "chef-vault"
 data_bags = %w(general config credentials)
 set_item_attributes_from_data_bags(data_bags, "postgresql")
-set_pg_conf_records
+set_additional_pg_hba_records
 
 include_recipe "flashcards-cookbook::general"
 include_recipe "postgresql::server"
