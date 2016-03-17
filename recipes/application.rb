@@ -60,17 +60,20 @@ end
 # Setup deployment ssh keys
 ########################################
 
-# file "/home/#{node['application']['deploy']['user']}/.ssh/id_rsa.pub" do
-#   content node['application']['public_key']
-#   owner node['application']['deploy']['user']
-#   mode 0600
-# end
+public_key = data_bag_item("ssh", "public_key").to_hash
+deploy_key = data_bag_item("ssh", "deploy_key").to_hash
 
-# file "/home/#{node['application']['deploy']['user']}/.ssh/id_rsa" do
-#   content node['application']['deploy_key']
-#   owner node['application']['deploy']['user']
-#   mode 0600
-# end
+file "/home/#{node['application']['deploy']['user']}/.ssh/id_rsa.pub" do
+  content public_key["key"]
+  owner node['application']['deploy']['user']
+  mode 0600
+end
+
+file "/home/#{node['application']['deploy']['user']}/.ssh/id_rsa" do
+  content deploy_key["key"]
+  owner node['application']['deploy']['user']
+  mode 0600
+end
 
 directory node['application']['deploy']["deploy_to"] do
   owner node['application']['deploy']['user']
@@ -87,12 +90,12 @@ directory "#{node['application']['deploy']["deploy_to"]}/shared" do
   action :create
 end
 
-# file "#{node['application']['deploy']["deploy_to"]}/wrap-ssh4git.sh" do
-#   content "#!/bin/bash\n/usr/bin/env ssh -o \"StrictHostKeyChecking=no\" -i \"/home/deployer/.ssh/id_rsa\" \$1 \$2\n"
-#   owner node['application']['deploy']['user']
-#   group node['application']['deploy']['user']
-#   mode 0700
-# end
+file "#{node['application']['deploy']["deploy_to"]}/wrap-ssh4git.sh" do
+  content "#!/bin/bash\n/usr/bin/env ssh -o \"StrictHostKeyChecking=no\" -i \"/home/#{node['application']['deploy']['user']}/.ssh/id_rsa\" \$1 \$2\n"
+  owner node['application']['deploy']['user']
+  group node['application']['deploy']['user']
+  mode 0700
+end
 
 %w{config system vendor_bundle log pids assets tmp}.each do |dir|
   directory "#{node['application']['deploy']["deploy_to"]}/shared/#{dir}" do
