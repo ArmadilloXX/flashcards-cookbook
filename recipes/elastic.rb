@@ -6,6 +6,15 @@ elasticsearch_user "elasticsearch"
 elasticsearch_install "elasticsearch" do
   type node["elasticsearch"]["install_type"].to_sym
 end
+
+# elasticsearch_plugin 'license' do
+#   action :install
+# end
+
+# elasticsearch_plugin 'shield' do
+#   action :install
+# end
+
 elasticsearch_configure "elasticsearch" do
       configuration ({
       "network.bind_host" => 0,
