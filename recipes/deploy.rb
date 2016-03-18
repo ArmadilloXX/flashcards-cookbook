@@ -13,7 +13,7 @@ deploy node['application']["deploy"]["deploy_to"] do
   migration_command "bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rake db:seed"
   environment 'RAILS_ENV' => node['application']['environment']
 
-  # ssh_wrapper "#{node['application']["deploy"]["deploy_to"]}/wrap-ssh4git.sh"
+  ssh_wrapper "#{node['application']["deploy"]["deploy_to"]}/wrap-ssh4git.sh"
 
   symlink_before_migrate symlinks
 
