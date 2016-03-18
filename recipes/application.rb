@@ -34,23 +34,26 @@ template "#{node['nginx']['dir']}/sites-available/#{node['application']['name']}
   mode 0644
 end
 
-# if node["application"]["ssl"]
-#   file "#{node['nginx']['dir']}/#{node['application']['name']}.crt" do
-#     content node['application']['ssl_crt']
-#     owner node['nginx']['user']
-#     group node['nginx']['user']
-#     mode 0644
-#     only_if { node['application']['ssl'] }
-#   end
+if node["application"]["ssl"]
+  ssl_crt = data_bag_item("certificates", "ssl_crt").to_hash
+  ssl_key = data_bag_item("certificates", "ssl_key").to_hash
 
-#   file "#{node['nginx']['dir']}/#{node['application']['name']}.key" do
-#     content node['application']['ssl_key']
-#     mode 0644
-#     owner node['nginx']['user']
-#     group node['nginx']['user']
-#     only_if { node['application']['ssl'] }
-#   end
-# end
+  file "#{node['nginx']['dir']}/#{node['application']['name']}.crt" do
+    content ssl_crt["crt"]
+    owner node['nginx']['user']
+    group node['nginx']['user']
+    mode 0644
+    only_if { node['application']['ssl'] }
+  end
+
+  file "#{node['nginx']['dir']}/#{node['application']['name']}.key" do
+    content ssl_key["key"]
+    mode 0644
+    owner node['nginx']['user']
+    group node['nginx']['user']
+    only_if { node['application']['ssl'] }
+  end
+end
 
 nginx_site node['application']['name'] do
   enable true
