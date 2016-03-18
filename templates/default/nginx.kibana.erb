@@ -1,12 +1,16 @@
+upstream kibana {
+    server 127.0.0.1:5601 fail_timeout=0;
+}
+
 server {
-  listen 82;
-  server_name $hostname;
+  listen 80;
+  server_name <%= node["kibana"]["fqdn"] %>;
   access_log <%= node['nginx']['log_dir'] %>/kibana-nginx.access.log;
 
   location / {
     auth_basic "Restricted Access";
     auth_basic_user_file /etc/nginx/htpasswd.users;
-    proxy_pass http://localhost:5601;
+    proxy_pass http://kibana;
     proxy_read_timeout 90;
   }
 }
