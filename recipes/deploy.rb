@@ -39,10 +39,9 @@ deploy node['application']["deploy"]["deploy_to"] do
       command "bundle exec rake assets:precompile && rm -rf #{release_path}/tmp/cache"
       cwd release_path
       environment "RAILS_ENV" => node['application']['environment']
-      # only_if {
-      #   node['application']["deploy"]["force_assets"]
-      #   # node['application']["deploy"]["force_assets"] || files_changed?(release_path, "#{node['application']["deploy"]["deploy_to"]}/shared/previous_revision", "app/assets lib/assets vendor/assets config/environments/#{node['application']['environment']}.rb")
-      # }
+      only_if {
+        node['application']["deploy"]["force_assets"] || files_changed?(release_path, "#{node['application']["deploy"]["deploy_to"]}/shared/previous_revision", "app/assets lib/assets vendor/assets config/environments/#{node['application']['environment']}.rb")
+      }
     end
   end
 
