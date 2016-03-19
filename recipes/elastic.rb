@@ -26,9 +26,9 @@ elasticsearch_configure "elasticsearch" do
 end
 
 bash 'create users' do
-  cwd node["elasticsearch"]["base_dir"]
+  cwd "/usr/share/elasticsearch/bin/shield"
   code <<-EOH
-    bin/shield/esusers useradd es_admin -r admin -p testpass
+    ./esusers useradd es_admin -r admin -p testpass
   EOH
 end
 
