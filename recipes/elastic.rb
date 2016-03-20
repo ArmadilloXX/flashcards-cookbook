@@ -29,6 +29,8 @@ bash 'create users' do
   cwd "/usr/share/elasticsearch/bin/shield"
   code <<-EOH
     ./esusers useradd es_admin -r admin -p testpass
+    ./esusers useradd kibana4-server -r kibana4_server -p password
+    ./esusers useradd testuser -r kibana4 -p testpass
   EOH
 end
 
