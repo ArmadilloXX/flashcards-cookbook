@@ -7,6 +7,11 @@ include_recipe 'simple-kibana::install'
 include_recipe 'simple-kibana::configure'
 include_recipe 'nginx'
 
+bash 'install shield plugin' do
+  cwd node["kibana"]["config"]["base_dir"]
+  code "bin/kibana plugin --install kibana/shield/latest"
+end
+
 ########################################
 # KIBANA SERVICE
 ########################################
