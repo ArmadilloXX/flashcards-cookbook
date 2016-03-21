@@ -1,14 +1,15 @@
 [Unit]
-Description= Flashcards kibana instance
+Description= Flashcards Kibana 4 instance
 
 [Service]
 User=<%= node["kibana"]["user"] %>
 Group=<%= node["kibana"]["group"] %>
-WorkingDirectory=/opt/kibana
-PIDFile=/var/run/kibana.pid
+Environment=NODE_ENV=<%= node.environment %>
+WorkingDirectory=/opt/kibana-<%= node["kibana"]["version"] %>
+PIDFile=/var/run/flashcards-kibana.pid
 SyslogIdentifier=flashcards-kibana
 Restart=always
-ExecStart=/usr/local/bin/kibana
+ExecStart=/opt/kibana-<%= node["kibana"]["version"] %>/bin/kibana
 
 [Install]
 WantedBy=multi-user.target
