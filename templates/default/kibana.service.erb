@@ -10,6 +10,7 @@ PIDFile=/var/run/flashcards-kibana.pid
 SyslogIdentifier=flashcards-kibana
 Restart=always
 ExecStart=/opt/kibana-<%= node["kibana"]["version"] %>/bin/kibana
+TimeoutSec=180
 
 [Install]
 WantedBy=multi-user.target
