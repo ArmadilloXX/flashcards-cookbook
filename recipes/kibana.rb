@@ -2,20 +2,9 @@ include_recipe "chef-vault"
 data_bag_items = %w(config credentials)
 set_default_attributes_from_data_bag("kibana", data_bag_items)
 
-# include_recipe 'simple-kibana::user'
+include_recipe 'simple-kibana::user'
 include_recipe 'simple-kibana::install'
 include_recipe 'simple-kibana::configure'
-# include_recipe 'nginx'
-
-# bash "install public key" do
-#   code "rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch"
-# end
-
-# template "/etc/yum.repos.d/kibana.repo" do
-#   source "kibana.repo.erb"
-# end
-
-# yum_package "kibana"
 
 directory "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl" do
   owner node['kibana']['user']
@@ -33,7 +22,6 @@ file "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl/flashcard
   owner node['kibana']['user']
   group node['kibana']['user']
   mode 0644
-  # only_if { node['application']['ssl'] }
 end
 
 file "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl/flashcards.key" do
@@ -41,7 +29,6 @@ file "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl/flashcard
   mode 0644
   owner node['kibana']['user']
   group node['kibana']['user']
-  # only_if { node['application']['ssl'] }
 end
 
 bash 'install shield plugin' do
@@ -68,24 +55,3 @@ service "flashcards-kibana" do
   supports start: true, restart: true, stop: true, status: true
   action [:enable, :start]
 end
-
-########################################
-# NGINX
-########################################
-
-# htpasswd "/etc/nginx/htpasswd.users" do
-#   user node['kibana']['access']['username']
-#   password node['kibana']['access']['password']
-#   type "sha1"
-# end
-
-# template "#{node['nginx']['dir']}/sites-available/kibana-flashcards" do
-#   source "nginx.kibana.erb"
-#   owner node['nginx']['user']
-#   group node['nginx']['user']
-#   mode 0644
-# end
-
-# nginx_site 'kibana-flashcards' do
-#   enable true
-# end
