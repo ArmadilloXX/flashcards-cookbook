@@ -11,7 +11,7 @@ elasticsearch_install "elasticsearch" do
   type :package
   version node["elasticsearch"]["version"]
   download_url node["elasticsearch"]["download_url"]
-  download_checksum node["elasticsearch"]["checksum"]
+  download_checksum node["elasticsearch"]["download_checksum"]
 end
 
 elasticsearch_plugin 'license' do
@@ -31,13 +31,14 @@ elasticsearch_configure "elasticsearch" do
   })
 end
 
-bash 'create users' do
-  cwd "/usr/share/elasticsearch/bin/shield"
-  code <<-EOH
-    ./esusers useradd es_admin -r admin -p testpass
-    ./esusers useradd kibana4-server -r kibana4_server -p password
-    ./esusers useradd testuser -r kibana4 -p testpass
-  EOH
+users = data_bag_item("elasticsearch", "users").to_hash
+base_dir = "/usr/share/elasticsearch/bin/shield"
+users["users"].each do |user|
+  bash "create \'#{user["username"]}\' user" do
+    cwd base_dir
+    code "./esusers useradd #{user["username"]} -r #{user["role"]} -p #{user["password"]}"
+    not_if "test $(#{base_dir}/esusers list | grep #{user["username"]} | wc -l) = 1"
+  end
 end
 
 elasticsearch_service "elasticsearch" do
