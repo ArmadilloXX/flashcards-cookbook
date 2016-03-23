@@ -1,11 +1,17 @@
+include_recipe "chef-vault"
+data_bag_items = %w(config)
+set_default_attributes_from_data_bag("elasticsearch", data_bag_items)
+
 include_recipe "java"
 include_recipe "chef-sugar"
 include_recipe "elasticsearch"
 
 elasticsearch_user "elasticsearch"
 elasticsearch_install "elasticsearch" do
-  type node["elasticsearch"]["install_type"].to_sym
-  dir  node["elasticsearch"]["base_dir"]
+  type :package
+  version node["elasticsearch"]["version"]
+  download_url node["elasticsearch"]["download_url"]
+  download_checksum node["elasticsearch"]["checksum"]
 end
 
 elasticsearch_plugin 'license' do
@@ -17,12 +23,12 @@ elasticsearch_plugin 'shield' do
 end
 
 elasticsearch_configure "elasticsearch" do
-      configuration ({
-      "network.bind_host" => 0,
-      "network.host" => "0.0.0.0",
-      "script.inline" => "sandbox",
-      "script.aggs" => "on"
-    })
+  configuration ({
+    "network.bind_host" => 0,
+    "network.host" => "0.0.0.0",
+    "script.inline" => "sandbox",
+    "script.aggs" => "on"
+  })
 end
 
 bash 'create users' do
