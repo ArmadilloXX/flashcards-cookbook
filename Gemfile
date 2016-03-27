@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'berkshelf'
+gem "inspec"
+gem "test-kitchen"
+gem "kitchen-vagrant"
+gem "kitchen-inspec"
 
 # Uncomment these lines if you want to live on the Edge:
 #
@@ -13,6 +17,3 @@ gem 'berkshelf'
 #   gem "vagrant-berkshelf", github: "berkshelf/vagrant-berkshelf"
 #   gem "vagrant-omnibus", github: "schisamo/vagrant-omnibus"
 # end
-
-gem "test-kitchen"
-gem "kitchen-vagrant"
