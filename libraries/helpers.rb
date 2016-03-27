@@ -1,5 +1,5 @@
 def files_changed?(repository, path_to_previous_revision, files)
-  `cd #{repository} && git log HEAD...$(cat #{path_to_previous_revision}) -- #{files} | wc -l`.to_i > 0
+  Mixlib::ShellOut.new("cd #{repository} && git log HEAD...$(cat #{path_to_previous_revision}) -- #{files} | wc -l").to_i > 0
 end
 
 def set_default_attributes_from_data_bag(data_bag, items)
@@ -11,10 +11,10 @@ end
 
 def set_defaults(attributes, main_key)
   attributes.each do |key, value|
-    node.default["#{main_key}"][key] =
+    node.default[main_key][key] =
       case value
       when Hash
-        Chef::Mixin::DeepMerge.merge(node["#{main_key}"][key], value)
+        Chef::Mixin::DeepMerge.merge(node[main_key][key], value)
       else
         value
       end
