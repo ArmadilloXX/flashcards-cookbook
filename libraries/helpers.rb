@@ -1,5 +1,6 @@
 def files_changed?(repository, path_to_previous_revision, files)
-  Mixlib::ShellOut.new("cd #{repository} && git log HEAD...$(cat #{path_to_previous_revision}) -- #{files} | wc -l").to_i > 0
+  cmd = "cd #{repository} && git log HEAD...$(cat #{path_to_previous_revision}) -- #{files} | wc -l"
+  Mixlib::ShellOut.new(cmd).run_command.to_i > 0
 end
 
 def set_default_attributes_from_data_bag(data_bag, items)
