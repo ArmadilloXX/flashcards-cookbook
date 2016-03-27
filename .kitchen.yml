@@ -10,6 +10,9 @@ verifier:
 
 platforms:
   - name: centos-7.1
+    driver:
+      customize:
+        memory: 1024
 
 suites:
   - name: general
