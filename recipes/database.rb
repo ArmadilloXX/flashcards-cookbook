@@ -24,8 +24,8 @@ end
 database_users.each do |user|
   postgresql_database_user user["username"] do
     connection postgresql_connection_info
-    password user["password"]
-    action :create
+    password   user["password"]
+    action     :create
   end
 
   postgresql_database_user user["username"] do
