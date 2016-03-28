@@ -19,3 +19,23 @@ suites:
     run_list:
       - recipe[flashcards-cookbook::general]
     attributes:
+
+  - name: database
+    data_bags_path: ../../data_bags
+    encrypted_data_bag_secret_key_path: ../../.chef/my_secret_key
+    run_list:
+      - recipe[flashcards-cookbook::database]
+    attributes:
+      application:
+        name: flashcards
+        environment: development
+
+
+  - name: elasticsearch
+    data_bags_path: ../../data_bags
+    encrypted_data_bag_secret_key_path: ../../.chef/my_secret_key
+    run_list:
+      - recipe[flashcards-cookbook::elasticsearch]
+    attributes:
+      java:
+        jdk_version: 8
