@@ -6,6 +6,8 @@ gem "test-kitchen"
 gem "kitchen-vagrant"
 gem "kitchen-inspec"
 
+gem "kitchen-docker" # For testing purpose
+
 # Uncomment these lines if you want to live on the Edge:
 #
 # group :development do
