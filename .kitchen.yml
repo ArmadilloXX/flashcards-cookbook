@@ -45,3 +45,8 @@ suites:
     run_list:
       - recipe[flashcards-cookbook::kibana]
     attributes:
+
+  - name: redis
+    run_list:
+      - recipe[flashcards-cookbook::redis]
+    attributes:
