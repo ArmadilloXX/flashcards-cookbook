@@ -26,7 +26,18 @@ suites:
     run_list:
       - recipe[flashcards-cookbook::application]
     attributes:
-      env_vars:
+
+  - name: deploy
+    data_bags_path: ../../data_bags
+    encrypted_data_bag_secret_key_path: ../../.chef/my_secret_key
+    run_list:
+      - recipe[flashcards-cookbook::application]
+      - recipe[flashcards-cookbook::database]
+      - recipe[flashcards-cookbook::deploy]
+    attributes:
+      application:
+        name: flashcards
+        environment: development
 
   - name: database
     data_bags_path: ../../data_bags
