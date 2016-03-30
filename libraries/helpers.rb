@@ -1,3 +1,5 @@
+require 'chef-vault'
+
 def files_changed?(repository, path_to_previous_revision, files)
   cmd = "cd #{repository} && git log HEAD...$(cat #{path_to_previous_revision}) -- #{files} | wc -l"
   Mixlib::ShellOut.new(cmd).run_command.to_i > 0

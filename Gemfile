@@ -1,10 +1,13 @@
 source 'https://rubygems.org'
 
+ruby '2.2.3'
+
 gem 'berkshelf'
 gem "inspec"
 gem "test-kitchen"
 gem "kitchen-vagrant"
 gem "kitchen-inspec"
+gem "chef-vault"
 
 gem "kitchen-docker" # For testing purpose
 
