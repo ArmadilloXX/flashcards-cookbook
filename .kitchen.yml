@@ -33,6 +33,7 @@ suites:
     run_list:
       - recipe[flashcards-cookbook::application]
       - recipe[flashcards-cookbook::database]
+      - recipe[flashcards-cookbook::redis]
       - recipe[flashcards-cookbook::deploy]
     attributes:
       application:
