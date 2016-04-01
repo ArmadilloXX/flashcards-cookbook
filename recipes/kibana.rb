@@ -6,7 +6,15 @@ include_recipe 'simple-kibana::user'
 include_recipe 'simple-kibana::install'
 include_recipe 'simple-kibana::configure'
 
-directory "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl" do
+########################################
+# KIBANA SHIELD PLUGIN AND SSL
+########################################
+
+ssl_crt = data_bag_item("certificates", "ssl_crt").to_hash
+ssl_key = data_bag_item("certificates", "ssl_key").to_hash
+kibana_dir = "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}"
+
+directory "#{kibana_dir}/ssl" do
   owner node['kibana']['user']
   group node['kibana']['user']
   recursive true
@@ -14,17 +22,14 @@ directory "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl" do
   action :create
 end
 
-ssl_crt = data_bag_item("certificates", "ssl_crt").to_hash
-ssl_key = data_bag_item("certificates", "ssl_key").to_hash
-
-file "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl/flashcards.crt" do
+file "#{kibana_dir}/ssl/flashcards.crt" do
   content ssl_crt["crt"]
   owner node['kibana']['user']
   group node['kibana']['user']
   mode 0644
 end
 
-file "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl/flashcards.key" do
+file "#{kibana_dir}/ssl/flashcards.key" do
   content ssl_key["key"]
   mode 0644
   owner node['kibana']['user']
@@ -32,12 +37,11 @@ file "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}/ssl/flashcard
 end
 
 bash 'install shield plugin' do
-  base_dir = "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}"
-  plugin_dir = "#{base_dir}/installedPlugins"
-  cwd base_dir
+  cwd kibana_dir
   code "bin/kibana plugin --install kibana/shield/latest"
   user node["kibana"]["user"]
-  not_if { ::Dir.exists?("#{plugin_dir}/shield")}
+  group node["kibana"]["user"]
+  not_if { ::Dir.exists?("#{kibana_dir}/installedPlugins/shield")}
 end
 
 ########################################
