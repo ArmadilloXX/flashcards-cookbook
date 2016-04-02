@@ -27,30 +27,33 @@ describe file("/etc/systemd/system/flashcards-sidekiq.service") do
 end
 
 describe file("/home/vagrant/.ssh/id_rsa.pub") do
-  it { should exist }
-  its("owner") { should eq "vagrant" }
+  # it { should exist }
+  # its("owner") { should eq "vagrant" }
+  it_exists_and_owned_by "vagrant"
 end
 
 describe file("/home/vagrant/.ssh/id_rsa") do
-  it { should exist }
-  its("owner") { should eq "vagrant" }
+  # it { should exist }
+  # its("owner") { should eq "vagrant" }
+  it_exists_and_owned_by "vagrant"
 end
 
 describe directory(deploy_to) do
-  it { should exist }
-  its("owner") { should eq "vagrant" }
+  # it { should exist }
+  # its("owner") { should eq "vagrant" }
+  it_exists_and_owned_by "vagrant"
 end
 
 describe directory("#{deploy_to}/shared") do
-  it { should exist }
-  its("owner") { should eq "vagrant" }
-  its("group") { should eq "vagrant" }
+  # it { should exist }
+  # its("owner") { should eq "vagrant" }
+  it_exists_and_owned_by "vagrant"
 end
 
 describe file("#{deploy_to}/shared/.env") do
-  it { should exist }
-  its("owner") { should eq "vagrant" }
-  its("group") { should eq "vagrant" }
+  # it { should exist }
+  # its("owner") { should eq "vagrant" }
+  it_exists_and_owned_by "vagrant"
   its("content") { should match "DATABASE_HOSTNAME=\"127.0.0.1\"" }
   its("content") { should match "DATABASE_PASSWORD=\"vagrant\"" }
   its("content") { should match "DATABASE_PORT=\"5432\"" }
@@ -59,8 +62,8 @@ end
 
 %w(config system vendor_bundle log pids assets tmp).each do |dir|
   describe directory("#{deploy_to}/shared/#{dir}") do
-    it { should exist }
-    its("owner") { should eq "vagrant" }
-    its("group") { should eq "vagrant" }
+    # it { should exist }
+    # its("owner") { should eq "vagrant" }
+    it_exists_and_owned_by "vagrant"
   end
 end
