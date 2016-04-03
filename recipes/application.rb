@@ -69,12 +69,14 @@ deploy_key = data_bag_item("ssh", "deploy_key").to_hash
 file "/home/#{node['application']['deploy']['user']}/.ssh/id_rsa.pub" do
   content public_key["key"]
   owner node['application']['deploy']['user']
+  group node['application']['deploy']['user']
   mode 0600
 end
 
 file "/home/#{node['application']['deploy']['user']}/.ssh/id_rsa" do
   content deploy_key["key"]
   owner node['application']['deploy']['user']
+  group node['application']['deploy']['user']
   mode 0600
 end
 
