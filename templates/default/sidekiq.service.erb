@@ -9,7 +9,7 @@ Environment=RAILS_ENV=<%= node['application']['environment'] %>
 SyslogIdentifier=<%= node['application']["name"] %>-sidekiq
 PIDFile=<%= "#{node['application']['deploy']["deploy_to"]}/shared/pids/sidekiq.pid" %>
 Restart=always
-ExecStart=/opt/rbenv/shims/bundle exec sidekiq -e <%= node['application']['environment'] %> -P <%= "#{node['application']['deploy']["deploy_to"]}/shared/pids/sidekiq.pid" %>
+ExecStart=/usr/bin/bundle exec sidekiq -e <%= node['application']['environment'] %> -P <%= "#{node['application']['deploy']["deploy_to"]}/shared/pids/sidekiq.pid" %>
 RestartSec=5
 
 [Install]

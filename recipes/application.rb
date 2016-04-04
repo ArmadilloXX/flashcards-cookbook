@@ -3,20 +3,38 @@ data_bag_items = %w(config credentials)
 set_default_attributes_from_data_bag("application", data_bag_items)
 
 include_recipe "flashcards-cookbook::general"
-include_recipe "rbenv::default"
-include_recipe "rbenv::ruby_build"
+include_recipe "ruby_build"
+# include_recipe "rbenv::default"
+# include_recipe "rbenv::ruby_build"
 include_recipe 'nginx'
 include_recipe "imagemagick"
 
-rbenv_ruby node["application"]["ruby_version"] do
-  ruby_version node["application"]["ruby_version"]
-  global true
+ruby_build_ruby node["application"]["ruby_version"] do
+  prefix_path "/usr/"
+  action :reinstall
+  not_if "test $(ruby -v | grep #{node['application']['ruby_version']} | wc -l) = 1"
 end
 
-rbenv_gem "bundler" do
-  ruby_version node["application"]["ruby_version"]
-  # gem_binary '/usr/bin/gem'
+gem_package "bundler" do
+  gem_binary "/usr/bin/gem"
+  options "--no-ri --no-rdoc"
 end
+
+# rbenv_ruby node["application"]["ruby_version"] do
+#   ruby_version node["application"]["ruby_version"]
+#   global true
+# end
+
+# # rbenv_gem "bundler" do
+# #   ruby_version node["application"]["ruby_version"]
+# #   # gem_binary '/usr/bin/gem'
+# # end
+
+# gem_package "bundler"
+
+# bash "rehash" do
+#   code "/opt/rbenv/bin/rbenv rehash"
+# end
 
 user_account node['application']['deploy']['user'] do
   create_group true
@@ -106,6 +124,7 @@ end
   directory "#{node['application']['deploy']["deploy_to"]}/shared/#{dir}" do
     owner node['application']['deploy']['user']
     group node['application']['deploy']['user']
+    recursive true
     mode 0755
     action :create
   end

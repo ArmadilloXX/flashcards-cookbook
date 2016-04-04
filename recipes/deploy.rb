@@ -10,7 +10,8 @@ deploy node['application']["deploy"]["deploy_to"] do
   repo node['application']["deploy"]["repository"]
   branch node['application']["deploy"]["revision"]
   migrate true
-  migration_command "/opt/rbenv/shims/bundle exec rake db:migrate && /opt/rbenv/shims/bundle exec rake db:seed"
+  # migration_command "/opt/rbenv/bin/rbenv exec bundle exec rake db:migrate && /opt/rbenv/bin/rbenv exec bundle exec rake db:seed"
+  migration_command "bundle exec rake db:migrate && bundle exec rake db:seed"
   environment 'RAILS_ENV' => node['application']['environment']
 
   ssh_wrapper "#{node['application']["deploy"]["deploy_to"]}/wrap-ssh4git.sh"
@@ -26,18 +27,20 @@ deploy node['application']["deploy"]["deploy_to"] do
   )
 
   user node['application']["deploy"]["user"]
+  group node['application']["deploy"]["user"]
 
   before_migrate do
     execute "install_gems" do
-      user node['application']["deploy"]["user"]
-      command "/opt/rbenv/shims/bundle install --deployment --path #{node['application']["deploy"]["deploy_to"]}/shared/vendor_bundle"
+      # command "/opt/rbenv/bin/rbenv exec bundle install --deployment --path #{node['application']["deploy"]["deploy_to"]}/shared/vendor_bundle"
+      command "bundle install --deployment --path #{node['application']["deploy"]["deploy_to"]}/shared/vendor_bundle"
       cwd release_path
     end
   end
 
   before_restart do
     execute "precompile_assets" do
-      command "/opt/rbenv/shims/bundle exec rake assets:precompile && rm -rf #{release_path}/tmp/cache"
+      # command "/opt/rbenv/bin/rbenv exec bundle exec rake assets:precompile && rm -rf #{release_path}/tmp/cache"
+      command "bundle exec rake assets:precompile && rm -rf #{release_path}/tmp/cache"
       cwd release_path
       environment "RAILS_ENV" => node['application']['environment']
       only_if {

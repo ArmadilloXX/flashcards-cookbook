@@ -13,7 +13,7 @@ describe directory("#{deploy_to}/shared/vendor_bundle/ruby") do
   it { should exist }
 end
 
-describe command("cd #{deploy_to}/current && /opt/rbenv/shims/bundle exec rake assets:precompile") do
+describe command("cd #{deploy_to}/current && bundle exec rake assets:precompile") do
   its("stdout") { should eq "" }
   its("exit_status") { should eq 0 }
 end
