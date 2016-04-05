@@ -9,7 +9,7 @@ Environment=RAILS_ENV=<%= node['application']['environment'] %>
 SyslogIdentifier=<%= node['application']['name'] %>-unicorn
 PIDFile=<%= "#{node['application']['deploy']['deploy_to']}/shared/pids/unicorn.pid" %>
 Restart=always
-ExecStart=/opt/rbenv/shims/bundle exec "unicorn_rails -c <%= "#{node['application']['deploy']['deploy_to']}/current/config/unicorn.rb" %> -E <%= node['application']['environment'] %> -D"
+ExecStart=/usr/bin/bundle exec "unicorn_rails -c <%= "#{node['application']['deploy']['deploy_to']}/current/config/unicorn.rb" %> -E <%= node['application']['environment'] %> -D"
 RestartSec=5
 
 [Install]

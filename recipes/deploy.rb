@@ -1,5 +1,4 @@
 include_recipe "flashcards-cookbook::application"
-# include_recipe "slack_handler"
 
 symlinks = {".env" => ".env"}
 
@@ -10,7 +9,6 @@ deploy node['application']["deploy"]["deploy_to"] do
   repo node['application']["deploy"]["repository"]
   branch node['application']["deploy"]["revision"]
   migrate true
-  # migration_command "/opt/rbenv/bin/rbenv exec bundle exec rake db:migrate && /opt/rbenv/bin/rbenv exec bundle exec rake db:seed"
   migration_command "bundle exec rake db:migrate && bundle exec rake db:seed"
   environment 'RAILS_ENV' => node['application']['environment']
 
@@ -31,17 +29,19 @@ deploy node['application']["deploy"]["deploy_to"] do
 
   before_migrate do
     execute "install_gems" do
-      # command "/opt/rbenv/bin/rbenv exec bundle install --deployment --path #{node['application']["deploy"]["deploy_to"]}/shared/vendor_bundle"
       command "bundle install --deployment --path #{node['application']["deploy"]["deploy_to"]}/shared/vendor_bundle"
       cwd release_path
+      user node['application']["deploy"]["user"]
+      group node['application']["deploy"]["user"]
     end
   end
 
   before_restart do
     execute "precompile_assets" do
-      # command "/opt/rbenv/bin/rbenv exec bundle exec rake assets:precompile && rm -rf #{release_path}/tmp/cache"
       command "bundle exec rake assets:precompile && rm -rf #{release_path}/tmp/cache"
       cwd release_path
+      user node['application']["deploy"]["user"]
+      group node['application']["deploy"]["user"]
       environment "RAILS_ENV" => node['application']['environment']
       only_if {
         node['application']["deploy"]["force_assets"] || files_changed?(release_path, "#{node['application']["deploy"]["deploy_to"]}/shared/previous_revision", "app/assets lib/assets vendor/assets config/environments/#{node['application']['environment']}.rb")
