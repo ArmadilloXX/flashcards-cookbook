@@ -1,6 +1,13 @@
 ---
 driver:
   name: vagrant
+  provision: true
+
+driver_config:
+  ssh:
+    username: root
+    password: vagrant
+    insert_key: true
 
 provisioner:
   name: chef_zero
