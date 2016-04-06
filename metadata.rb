@@ -9,7 +9,6 @@ version          '0.1.0'
 depends 'build-essential'
 depends 'user'
 depends "ruby_build"
-# depends 'rbenv'
 depends 'postgresql'
 depends 'database'
 depends 'redisio'

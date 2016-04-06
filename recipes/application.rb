@@ -4,8 +4,6 @@ set_default_attributes_from_data_bag("application", data_bag_items)
 
 include_recipe "flashcards-cookbook::general"
 include_recipe "ruby_build"
-# include_recipe "rbenv::default"
-# include_recipe "rbenv::ruby_build"
 include_recipe 'nginx'
 include_recipe "imagemagick"
 
@@ -19,22 +17,6 @@ gem_package "bundler" do
   gem_binary "/usr/bin/gem"
   options "--no-ri --no-rdoc"
 end
-
-# rbenv_ruby node["application"]["ruby_version"] do
-#   ruby_version node["application"]["ruby_version"]
-#   global true
-# end
-
-# # rbenv_gem "bundler" do
-# #   ruby_version node["application"]["ruby_version"]
-# #   # gem_binary '/usr/bin/gem'
-# # end
-
-# gem_package "bundler"
-
-# bash "rehash" do
-#   code "/opt/rbenv/bin/rbenv rehash"
-# end
 
 user_account node['application']['deploy']['user'] do
   create_group true
