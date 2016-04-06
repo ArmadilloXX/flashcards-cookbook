@@ -1,10 +1,10 @@
 require_relative "../../helpers/application_helper.rb"
 
-describe command("/opt/rbenv/shims/ruby -v") do
+describe command("ruby -v") do
   its("stdout") { should match "2.2.3" }
  end
 
-describe file("/opt/rbenv/shims/gem") do
+describe file("/usr/bin/gem") do
   it { should exist }
 end
 
@@ -14,11 +14,15 @@ describe user("vagrant") do
   its("home") { should eq "/home/vagrant" }
 end
 
+describe package "ImageMagick" do
+  it { should be_installed }
+end
+
 describe file("/etc/nginx/sites-available/flashcards") do
   it { should exist }
 end
 
-describe file("/etc/nginx/sites-enable/flashcards") do
+describe file("/etc/nginx/sites-enabled/flashcards") do
   it { should exist }
 end
 
