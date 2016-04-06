@@ -18,7 +18,7 @@ describe file("/etc/nginx/sites-available/flashcards") do
   it { should exist }
 end
 
-describe file("/etc/nginx/sites-available/flashcards") do
+describe file("/etc/nginx/sites-enable/flashcards") do
   it { should exist }
 end
 
@@ -32,6 +32,10 @@ end
 
 describe file("/home/vagrant/.ssh/id_rsa") do
   it_exists_and_owned_by "vagrant"
+end
+
+describe file("/etc/systemd/system/flashcards-unicorn.service") do
+  it { should exist }
 end
 
 describe directory(deploy_to) do
