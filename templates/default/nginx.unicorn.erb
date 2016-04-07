@@ -3,7 +3,7 @@ upstream app_server {
 }
 
 server {
-  listen <%= node['application']['nginx_port'] %>;
+  listen 80 %>;
   server_name <%= node['application']['fqdn'] %>;
 
 <% if node['application']['ssl'] %>
