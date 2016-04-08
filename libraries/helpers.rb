@@ -3,6 +3,19 @@ def files_changed?(repository, path_to_previous_revision, files)
   Mixlib::ShellOut.new(cmd).run_command.to_i > 0
 end
 
+def override_settings_from_data_bag(data_bag, item)
+  config = get_data_bag_item(data_bag, item)
+  config.to_hash.each do |key, value|
+    node.default[key] =
+      case value
+      when Hash
+         Chef::Mixin::DeepMerge.merge(node[key].dup, value)
+      else
+        value
+      end
+  end
+end
+
 def set_default_attributes_from_data_bag(data_bag, items)
   items.each do |item|
     attributes = get_data_bag_item(data_bag, item).to_hash
