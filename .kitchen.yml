@@ -28,15 +28,15 @@ suites:
     attributes:
 
   - name: application
-    data_bags_path: ../../data_bags
-    encrypted_data_bag_secret_key_path: ../../.chef/my_secret_key
+    data_bags_path: test/data_bags
+    encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::application]
     attributes:
 
   - name: deploy
-    data_bags_path: ../../data_bags
-    encrypted_data_bag_secret_key_path: ../../.chef/my_secret_key
+    data_bags_path: test/data_bags
+    encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::application]
       - recipe[flashcards-cookbook::database]
@@ -60,8 +60,8 @@ suites:
         environment: development
 
   - name: database
-    data_bags_path: ../../data_bags
-    encrypted_data_bag_secret_key_path: ../../.chef/my_secret_key
+    data_bags_path: test/data_bags
+    encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::database]
     attributes:
@@ -82,8 +82,8 @@ suites:
         environment: development
 
   - name: elasticsearch
-    data_bags_path: ../../data_bags
-    encrypted_data_bag_secret_key_path: ../../.chef/my_secret_key
+    data_bags_path: test/data_bags
+    encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::elasticsearch]
     attributes:
@@ -91,8 +91,8 @@ suites:
         jdk_version: 8
 
   - name: kibana
-    data_bags_path: ../../data_bags
-    encrypted_data_bag_secret_key_path: ../../.chef/my_secret_key
+    data_bags_path: test/data_bags
+    encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::kibana]
     attributes:
