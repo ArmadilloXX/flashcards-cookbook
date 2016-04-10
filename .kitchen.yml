@@ -87,8 +87,6 @@ suites:
     run_list:
       - recipe[flashcards-cookbook::elasticsearch]
     attributes:
-      java:
-        jdk_version: 8
 
   - name: kibana
     data_bags_path: test/data_bags
