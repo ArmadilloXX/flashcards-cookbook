@@ -21,9 +21,9 @@ describe service "elasticsearch" do
 end
 
 describe command("curl localhost:9200") do
-  its("stdout") { should match 'missing authentication token' }
+  its("stdout") { should match "missing authentication token" }
 end
 
 describe command("curl -u testuser:testpass localhost:9200") do
-  its("stdout") { should match 'You Know, for Search' }
+  its("stdout") { should match "You Know, for Search" }
 end
