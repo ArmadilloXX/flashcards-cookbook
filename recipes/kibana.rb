@@ -11,9 +11,6 @@ include_recipe 'simple-kibana::configure'
 ########################################
 # KIBANA SHIELD PLUGIN AND SSL
 ########################################
-
-ssl_crt = data_bag_item("certificates", "ssl_crt").to_hash
-ssl_key = data_bag_item("certificates", "ssl_key").to_hash
 kibana_dir = "#{node["kibana"]["dir"]}/kibana-#{node["kibana"]["version"]}"
 
 directory "#{kibana_dir}/ssl" do
@@ -25,14 +22,14 @@ directory "#{kibana_dir}/ssl" do
 end
 
 file "#{kibana_dir}/ssl/flashcards.crt" do
-  content ssl_crt["crt"]
+  content node["application"]["ssl_cert"]["crt"]
   owner node['kibana']['user']
   group node['kibana']['user']
   mode 0644
 end
 
 file "#{kibana_dir}/ssl/flashcards.key" do
-  content ssl_key["key"]
+  content content node["application"]["ssl_cert"]["key"]
   mode 0644
   owner node['kibana']['user']
   group node['kibana']['user']
@@ -50,7 +47,7 @@ end
 # KIBANA SERVICE
 ########################################
 
-template "/etc/systemd/system/flashcards-kibana.service" do
+template "/etc/systemd/system/#{node["application"]["name"]}-kibana.service" do
   source "kibana.service.erb"
   owner node["kibana"]["user"]
   group node["kibana"]["group"]
