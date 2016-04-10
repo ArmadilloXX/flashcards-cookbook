@@ -58,7 +58,7 @@ default["redisio"]["version"]                         = "3.0.6"
 ########################################
 # ELASTICSEARCH
 ########################################
-default["java"]["jdk_version"]                        = 8
+default["java"]["jdk_version"]                        = node["elasticsearch"]["jdk_version"] || 8
 default["elasticsearch"]["version"]                   = "2.1.1"
 default["elasticsearch"]["download_url"]              = "https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/rpm/elasticsearch/2.2.1/elasticsearch-2.2.1.rpm"
 default["elasticsearch"]["download_checksum"]         = "ddb5e1545e90b45e2b9495c35d5336a40fc63e09d8ac9cac73079888405df7f4"
