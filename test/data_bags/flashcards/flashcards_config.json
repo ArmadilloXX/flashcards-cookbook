@@ -1,0 +1,81 @@
+{
+  "id": "flashcards_config",
+  "ruby_build": {
+    "upgrade": true
+  },
+  "application": {
+    "name": "flashcards",
+    "ruby_version": "2.2.3",
+    "app_server": "unicorn",
+    "fqdn": "localhost",
+    "ssl": false,
+    "env_vars": {
+      "ES_HOST": "192.168.50.102",
+      "ES_PORT": 9200,
+      "ES_INDEX_NAME": "analytics",
+      "ES_VISIT_TYPE": "visit",
+      "ES_EVENT_TYPE": "event",
+      "REDIS_HOST": "redis://127.0.0.1:6379",
+      "FIREHOSE_VISIT_STREAM": "visits",
+      "FIREHOSE_EVENT_STREAM": "events"
+      },
+    "deploy": {
+      "user": "deployer",
+      "deploy_to": "/var/www/flashcards",
+      "repository": "https://github.com/ArmadilloXX/flashcards.git",
+      "revision": "add_kinesis",
+      "force_assets": true
+    }
+  },
+  "postgresql": {
+    "enable_pgdg_yum": true,
+    "version": "9.4",
+    "dir": "/var/lib/pgsql/9.4/data",
+    "setup_script": "postgresql94-setup",
+    "client": {
+      "packages": [
+        "postgresql94",
+        "postgresql94-devel",
+        "postgresql94-libs"
+      ]
+    },
+    "server": {
+      "packages": ["postgresql94-server"],
+      "service_name": "postgresql-9.4"
+    },
+    "contrib": {
+      "packages": ["postgresql94-contrib"]
+    },
+    "config": {
+      "data_directory": "/var/lib/pgsql/9.4/data",
+      "listen_addresses": "*",
+      "port": 5432
+    }
+  },
+  "java": {
+    "jdk_version": 8
+  },
+  "elasticsearch": {
+    "version": "2.2.1",
+    "download_url": "https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/rpm/elasticsearch/2.2.1/elasticsearch-2.2.1.rpm",
+    "download_checksum": "ddb5e1545e90b45e2b9495c35d5336a40fc63e09d8ac9cac73079888405df7f4",
+    "base_dir": "/opt"
+  },
+  "kibana": {
+    "version": "4.4.2",
+    "download_url": "https://download.elastic.co/kibana/kibana/kibana-4.4.2-linux-x64.tar.gz",
+    "checksum": "ce0504d7a9440200b49851a64e010ddf8a8ed7b881135f6121d594ba1c0d6cfd",
+    "dir": "/opt",
+    "config": {
+      "elasticsearch_url": "http://192.168.50.102:9200",
+      "elasticsearch.username": "kibana4-server",
+      "elasticsearch.password": "password",
+      "shield.encryptionKey": "my_secret_key",
+      "server.ssl.key": "/opt/kibana/ssl/flashcards.key",
+      "server.ssl.cert": "/opt/kibana/ssl/flashcards.crt"
+    }
+  },
+  "redisio": {
+    "version": "3.0.6"
+  }
+}
