@@ -1,6 +1,6 @@
 include_recipe "chef-vault"
-data_bag_items = %w(config)
-set_default_attributes_from_data_bag("elasticsearch", data_bag_items)
+override_settings_from_data_bag('flashcards', 'flashcards_config')
+override_settings_from_data_bag('flashcards', 'flashcards_secrets')
 
 include_recipe "java"
 include_recipe "chef-sugar"
@@ -31,9 +31,8 @@ elasticsearch_configure "elasticsearch" do
   })
 end
 
-users = data_bag_item("elasticsearch", "users").to_hash
-base_dir = "/usr/share/elasticsearch/bin/shield"
-users["users"].each do |user|
+node["elasticsearch"]["users"].each do |user|
+  base_dir = "/usr/share/elasticsearch/bin/shield"
   bash "create \'#{user["username"]}\' user" do
     cwd base_dir
     code "./esusers useradd #{user["username"]} -r #{user["role"]} -p #{user["password"]}"
