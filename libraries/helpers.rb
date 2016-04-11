@@ -45,9 +45,9 @@ def get_data_bag_item(data_bag, item)
 end
 
 def set_additional_pg_hba_records
-  item = data_bag_item("postgresql", "pg_hba_records").to_hash
+  new_records = node["postgresql"]["additional_hba_records"]
   pg_hba = node['postgresql']['pg_hba'].dup
-  item["records"].each { |record| pg_hba << record }
+  new_records.each { |record| pg_hba << record }
   node.default["postgresql"]["pg_hba"] = pg_hba
 end
 
