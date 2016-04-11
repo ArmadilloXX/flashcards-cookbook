@@ -37,7 +37,7 @@ end
 
 bash 'install shield plugin' do
   cwd kibana_dir
-  code "bin/kibana plugin --install kibana/shield/latest"
+  code "bin/kibana plugin --install kibana/shield/#{node["kibana"]["shield_version"]}"
   user node["kibana"]["user"]
   group node["kibana"]["user"]
   not_if { ::Dir.exists?("#{kibana_dir}/installedPlugins/shield")}
