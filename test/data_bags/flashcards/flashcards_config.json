@@ -36,7 +36,8 @@
       "packages": [
         "postgresql94",
         "postgresql94-devel",
-        "postgresql94-libs"
+        "postgresql94-libs",
+        "postgresql-devel"
       ]
     },
     "server": {
