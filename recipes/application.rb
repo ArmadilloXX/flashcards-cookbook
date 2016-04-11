@@ -1,6 +1,6 @@
 include_recipe "chef-vault"
-data_bag_items = %w(config credentials)
-set_default_attributes_from_data_bag("application", data_bag_items)
+override_settings_from_data_bag('flashcards', 'flashcards_config')
+override_settings_from_data_bag('flashcards', 'flashcards_secrets')
 
 include_recipe "flashcards-cookbook::general"
 include_recipe "ruby_build"
@@ -35,11 +35,8 @@ template "#{node['nginx']['dir']}/sites-available/#{node['application']['name']}
 end
 
 if node["application"]["ssl"]
-  ssl_crt = data_bag_item("certificates", "ssl_crt").to_hash
-  ssl_key = data_bag_item("certificates", "ssl_key").to_hash
-
   file "#{node['nginx']['dir']}/#{node['application']['name']}.crt" do
-    content ssl_crt["crt"]
+    content node["application"]["ssl_cert"]["crt"]
     owner node['nginx']['user']
     group node['nginx']['user']
     mode 0644
@@ -47,7 +44,7 @@ if node["application"]["ssl"]
   end
 
   file "#{node['nginx']['dir']}/#{node['application']['name']}.key" do
-    content ssl_key["key"]
+    content node["application"]["ssl_cert"]["key"]
     mode 0644
     owner node['nginx']['user']
     group node['nginx']['user']
@@ -63,18 +60,15 @@ end
 # Setup deployment ssh keys
 ########################################
 
-public_key = data_bag_item("ssh", "public_key").to_hash
-deploy_key = data_bag_item("ssh", "deploy_key").to_hash
-
 file "/home/#{node['application']['deploy']['user']}/.ssh/id_rsa.pub" do
-  content public_key["key"]
+  content node["application"]["ssh_keys"]["public_key"]
   owner node['application']['deploy']['user']
   group node['application']['deploy']['user']
   mode 0600
 end
 
 file "/home/#{node['application']['deploy']['user']}/.ssh/id_rsa" do
-  content deploy_key["key"]
+  content node["application"]["ssh_keys"]["deploy_key"]
   owner node['application']['deploy']['user']
   group node['application']['deploy']['user']
   mode 0600
