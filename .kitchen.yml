@@ -25,14 +25,12 @@ suites:
   - name: general
     run_list:
       - recipe[flashcards-cookbook::general]
-    attributes:
 
   - name: application
     data_bags_path: test/data_bags
     encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::application]
-    attributes:
 
   - name: deploy
     data_bags_path: test/data_bags
@@ -42,48 +40,25 @@ suites:
       - recipe[flashcards-cookbook::database]
       - recipe[flashcards-cookbook::redis]
       - recipe[flashcards-cookbook::deploy]
-    attributes:
-      application:
-        name: flashcards
-        environment: development
 
   - name: database
     data_bags_path: test/data_bags
     encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::database]
-    attributes:
-      postgresql:
-        pg_hba:
-          - type: local
-            db: all
-            user: postgres
-            addr:
-            method: trust
-          - type: host
-            db: all
-            user: all
-            addr: ::1/128
-            method: md5
-      application:
-        name: flashcards
-        environment: development
 
   - name: elasticsearch
     data_bags_path: test/data_bags
     encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::elasticsearch]
-    attributes:
 
   - name: kibana
     data_bags_path: test/data_bags
     encrypted_data_bag_secret_key_path: test/my_secret_key
     run_list:
       - recipe[flashcards-cookbook::kibana]
-    attributes:
 
   - name: redis
     run_list:
       - recipe[flashcards-cookbook::redis]
-    attributes:
