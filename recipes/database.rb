@@ -21,17 +21,19 @@ postgresql_database "#{node['application']['name']}_#{node['application']['envir
 end
 
 # Create database users and grants privileges to them
-node["postgresql"]["db_users"].each do |user|
-  postgresql_database_user user["username"] do
-    connection postgresql_connection_info
-    password   user["password"]
-    action     :create
-  end
+if node["postgresql"]["db_users"]
+  node["postgresql"]["db_users"].each do |user|
+    postgresql_database_user user["username"] do
+      connection postgresql_connection_info
+      password   user["password"]
+      action     :create
+    end
 
-  postgresql_database_user user["username"] do
-    connection    postgresql_connection_info
-    database_name user["database_name"]
-    privileges    user["privileges"].map { |p| p.to_sym }
-    action        :grant
+    postgresql_database_user user["username"] do
+      connection    postgresql_connection_info
+      database_name user["database_name"]
+      privileges    user["privileges"].map { |p| p.to_sym }
+      action        :grant
+    end
   end
 end
