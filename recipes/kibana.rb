@@ -1,6 +1,4 @@
 include_recipe "chef-vault"
-# data_bag_items = %w(config credentials)
-# set_default_attributes_from_data_bag("kibana", data_bag_items)
 override_settings_from_data_bag('flashcards', 'flashcards_config')
 override_settings_from_data_bag('flashcards', 'flashcards_secrets')
 
