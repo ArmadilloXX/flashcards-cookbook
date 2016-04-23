@@ -1,6 +1,8 @@
-include_recipe "chef-vault"
-override_settings_from_data_bag('flashcards', 'flashcards_config')
-override_settings_from_data_bag('flashcards', 'flashcards_secrets')
+if node["application"]['override_config_from_data_bag']
+  include_recipe "chef-vault"
+  override_settings_from_data_bag('flashcards', 'flashcards_config')
+  override_settings_from_data_bag('flashcards', 'flashcards_secrets')
+end
 set_additional_pg_hba_records if node["postgresql"]["additional_hba_records"]
 
 include_recipe "flashcards-cookbook::general"
